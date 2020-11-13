@@ -1,0 +1,49 @@
+<!-- <div fxFlex fxLayout="column">
+  <mat-toolbar color="primary" class="custom-dialog-toolbar" fxLayoutAlign="space-between center">
+    <span class="header-text">LOGIN</span>
+    <button mat-icon-button (click)="close()"><mat-icon>clear</mat-icon></button>
+  </mat-toolbar>
+  <mat-dialog-content>
+    <form fxFlex fxLayoutGap="16px" fxLayout="column" [formGroup]="loginForm">
+      <mat-form-field>
+        <input required id="username" matInput formControlName="username" placeholder="username">
+      </mat-form-field>
+      <mat-form-field>
+        <input required id="password" matInput formControlName="password"
+        [type]="hide ? 'password':'text'"
+        placeholder="password">
+       <mat-icon matSuffix (click)="hide = !hide" >
+          {{hide ? 'visibility' : 'visibility_off'}}
+       </mat-icon>
+      </mat-form-field>
+</form>
+  </mat-dialog-content>
+  <mat-dialog-actions  fxLayoutAlign="end center" fxLayout="row" fxLayoutGap="16px">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-button color="primary" (click)="submit()">LOGIN</button>
+  </mat-dialog-actions>
+</div> -->
+<h2 mat-dialog-title>LOGIN</h2>
+
+<mat-dialog-content>
+
+  <form fxFlex fxLayoutGap="16px" fxLayout="column" [formGroup]="loginForm">
+    <mat-form-field>
+      <input required id="username" matInput formControlName="username" placeholder="username">
+    </mat-form-field>
+    <mat-form-field>
+      <input required id="password" matInput formControlName="password"
+        [type]="hide ? 'text' : 'password' "
+        placeholder="password">
+      <mat-icon matSuffix (click)="hide = !hide" >
+          {{hide ? 'visibility' : 'visibility_off'}}
+      </mat-icon>
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+    <button class="mat-raised-button"(click)="close()">Close</button>
+    <button [disabled]="loginForm.invalid" class="mat-raised-button mat-primary"(click)="save()">Save</button>
+</mat-dialog-actions>

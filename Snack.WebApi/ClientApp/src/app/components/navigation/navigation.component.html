@@ -1,0 +1,10 @@
+<mat-toolbar color="primary" fxLayoutAlign="space-between center">
+  <div>
+    <span class="brand-text">EL'PESTO</span>
+  </div>
+  <div fxLayout="row">
+    <button *ngIf="!isAuthenticated" mat-button (click)="userLogin()">LOGIN</button>
+    <button *ngIf="hasManagerialAccess$ | async" mat-button (click)="registerUser()">REGISTER</button>
+    <button *ngIf="isAuthenticated" mat-button (click)="logout()">LOGOUT</button>
+  </div>
+</mat-toolbar>
