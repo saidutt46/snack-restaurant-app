@@ -1,4 +1,4 @@
 <div class="content-section" fxFlex fxLayout="column">
-  <app-navigation></app-navigation>
+  <app-navigation (themeUpdated)="updateTheme($event)" (colorModeUpdated)="updateColorMode($event)"></app-navigation>
   <router-outlet></router-outlet>
 </div>

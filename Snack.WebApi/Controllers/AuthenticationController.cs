@@ -215,7 +215,7 @@ namespace Snack.WebApi.Controllers
 
         [HttpGet]
         [Route("userprofile/{id}")]
-        [Authorize(Roles = "SuperUser, Manager")]
+        [Authorize(Roles = "Casher, Manager, SuperUser, Admin")]
         public async Task<IActionResult> GetUserProfile(string id)
         {
             if (!ModelState.IsValid)
@@ -226,7 +226,14 @@ namespace Snack.WebApi.Controllers
                 var userExists = await userManager.FindByIdAsync(id);
                 if (userExists == null)
                     return StatusCode(StatusCodes.Status404NotFound, new AuthResponse { Success = false, Status = "Error", Errors =  new List<string> { "User Not Found" } });
+                var userRoles = await userManager.GetRolesAsync(userExists);
+                List<string> roles = new List<string>();
+                foreach (var userRole in userRoles)
+                {
+                    roles.Add(userRole);
+                }
                 UserProfileDto user = _mapper.Map<ApplicationUser, UserProfileDto>(userExists);
+                user.Roles = roles;
                 return Ok(user);
             }
             catch (Exception ex)

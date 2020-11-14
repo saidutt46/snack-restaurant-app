@@ -5,3 +5,8 @@ export class UserStateModel {
   hasManagerialAccess: boolean;
   isAuthenticated: boolean;
 }
+
+export class AccessUpdateModel {
+  managerialAccess: boolean;
+  isAuthenticated: boolean;
+}

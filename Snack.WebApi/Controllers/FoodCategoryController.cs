@@ -9,6 +9,7 @@ using Snack.WebApi.Extensions;
 namespace Snack.WebApi.Controllers
 {
     [Route("/api/[controller]")]
+    [Authorize(Roles = "Manager, Admin, SuperUser")]
     public class FoodCategoryController : ControllerBase
     {
         private IFoodCategoryService _foodCategorySerive;

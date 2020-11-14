@@ -31,11 +31,11 @@ export class AuthInterceptor implements HttpInterceptor {
       (err: any) => {
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401 || 403) {
-          this.notifier.errorNotification(err.message);
+          this.notifier.errorNotification(`${err.statusText}: ${err.message}`);
           this.router.navigate(['home']);
         }
         if (err.status === 400) {
-          this.notifier.errorNotification(err.message);
+          this.notifier.errorNotification(`${err.statusText}: ${err.message}`);
         }
         return throwError(err);
       }

@@ -2,7 +2,7 @@ import { UserProfileModel } from './../models/user-profile.model';
 import { LoginRequestModel, LoginResponseModel } from './../models/login.model';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -16,9 +16,12 @@ export class AuthenticationService {
     private http: HttpClient
   ) { }
 
-  createAuthorizationHeader(headers: Headers) {
+  createAuthorizationHeader(headers: HttpHeaders) {
     const token = localStorage.getItem('token');
-    headers.append('Authorization', token);
+    console.warn(token);
+    headers.set('Content-Type', 'application/json');
+    headers.set('Authorization', `Bearer ${token}`);
+    console.warn(headers);
   }
 
   public login(model: LoginRequestModel): Observable<LoginResponseModel> {
@@ -26,7 +29,7 @@ export class AuthenticationService {
   }
 
   public logout(id: string): Observable<string> {
-    const headers = new Headers();
+    const headers = new HttpHeaders();
     this.createAuthorizationHeader(headers);
     return this.http.post<string>(`${this.apiUrl}/logout/${id}`, {});
   }
@@ -47,6 +50,16 @@ export class AuthenticationService {
       return hasAccess;
     }
     return false;
+  }
+
+  public getUserProfileById(id: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/userprofile/${id}`,
+    { headers: headers});
   }
 
   public updateUserProfile(model: UserProfileModel) {
