@@ -1,8 +1,6 @@
-import { UserActions } from 'src/app/ngxs-store/user/user.action';
 import { Store } from '@ngxs/store';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import {OverlayContainer} from '@angular/cdk/overlay';
-import { User } from 'oidc-client';
 
 const THEME_DARKNESS_SUFFIX = `-dark`;
 
@@ -18,7 +16,6 @@ export class AppComponent implements OnInit {
   activeTheme: string;
 
   constructor(
-    private store: Store,
     private overlayContainer: OverlayContainer
   ) {
     // Set default theme here:
@@ -67,6 +64,6 @@ export class AppComponent implements OnInit {
 
   updateColorMode(e: boolean) {
     this.isThemeDark = e;
-    this.setActiveTheme(this.activeTheme, this.isThemeDark);
+    this.setActiveTheme(this.activeTheme);
   }
 }

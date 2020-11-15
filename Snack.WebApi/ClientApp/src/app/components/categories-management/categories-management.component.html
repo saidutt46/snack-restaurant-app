@@ -1,1 +1,18 @@
-<p>categories-management works!</p>
+<div class="main-window" fxFlex fxLayout="column">
+  <app-context-header [title]="'Food Categories Management'">
+  </app-context-header>
+  <div class="categories-content-section">
+    <mat-card fxFlex class="custom-content-card mat-elevation-z10">
+      <mat-drawer-container fxFlex class="custom-drawer-container" autosize>
+        <div class="custom-drawer-content">
+          <app-categories-table fxFlex (categorySelected)="updateEditForm($event)"></app-categories-table>
+        </div>
+        <mat-drawer [position]="'end'" #drawer class="custom-edit-sidenav" mode="side">
+          <div *ngIf="!currentCategorySelected">please select</div>
+          <app-categories-edit fxFlex (closePanel)="drawer.close()" *ngIf="currentCategorySelected" [currentCategory]="currentCategorySelected"></app-categories-edit>
+        </mat-drawer>
+      </mat-drawer-container>
+    </mat-card>
+  </div>
+</div>
+`

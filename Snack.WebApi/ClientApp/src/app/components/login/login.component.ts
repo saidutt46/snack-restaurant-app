@@ -1,9 +1,11 @@
+import { Observable } from 'rxjs';
+import { UserStateSelector } from 'src/app/ngxs-store/user/user.selector';
 import { NOTIFICATION_SERV_TOKEN, NotificationService } from './../../services/notification.service';
 import { LoginRequestModel } from './../../models/login.model';
 import { MatDialog } from '@angular/material';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { UserActions } from 'src/app/ngxs-store/user/user.action';
 
 @Component({
@@ -12,6 +14,7 @@ import { UserActions } from 'src/app/ngxs-store/user/user.action';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  @Select(UserStateSelector.formLoading) loading$: Observable<boolean>;
   loginForm: FormGroup;
   hide: false;
 

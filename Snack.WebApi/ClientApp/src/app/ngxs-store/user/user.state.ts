@@ -13,7 +13,8 @@ import { throwError } from 'rxjs';
   defaults: {
     userProfile: null,
     hasManagerialAccess: false,
-    isAuthenticated: false
+    isAuthenticated: false,
+    formLoading: false
   }
 })
 
@@ -26,6 +27,9 @@ export class UserState {
 
   @Action(UserActions.LoginUser)
   loginUser({patchState}: StateContext<UserStateModel>, {payload}) {
+    patchState({
+      formLoading: true
+    });
     return this.authService.login(payload).pipe(
       catchError((x) => {
         return throwError(x);
@@ -44,7 +48,8 @@ export class UserState {
           patchState({
             userProfile: res.userProfile,
             isAuthenticated: token ? true : false,
-            hasManagerialAccess: hasAccess
+            hasManagerialAccess: hasAccess,
+            formLoading: false
           });
           this.notifier.successNotification(`${res.userProfile.userName.toUpperCase()}: successfully logged In`);
         }

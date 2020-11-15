@@ -8,7 +8,6 @@ import { Inject, Injectable } from '@angular/core';
 import { FoodCategoryActions } from './food-category.action';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { loadavg } from 'os';
 
 @State<FoodCategoryStateModel>({
   name: 'foodCategory',
@@ -43,7 +42,6 @@ export class FoodCategoryState {
             allCategoris: res.payload,
             loading: false
           });
-          this.notifier.successNotification(`Sucessfully retrieved food categories`);
         }
       })
     );
@@ -87,7 +85,7 @@ export class FoodCategoryState {
             loading: false,
             formLoading: false
           });
-          this.notifier.successNotification(`Sucessfully created food categories`);
+          this.notifier.successNotification(`Sucessfully created food category: ${res.payload.name}`);
           this.store.dispatch(new FoodCategoryActions.ListAllCategories());
         }
       })
@@ -95,7 +93,7 @@ export class FoodCategoryState {
   }
 
   @Action([FoodCategoryActions.UpdateCategory])
-  updateCategory({patchState}: StateContext<FoodCategoryStateModel>, {payload, id}) {
+  updateCategory({patchState}: StateContext<FoodCategoryStateModel>, {id, payload}) {
     patchState({
       loading: true
     });
@@ -109,7 +107,7 @@ export class FoodCategoryState {
             selectedCategory: res.payload,
             loading: false
           });
-          this.notifier.successNotification(`Sucessfully retrieved food categories`);
+          this.notifier.successNotification(`Sucessfully updated food category: ${res.payload.name}`);
           this.store.dispatch(new FoodCategoryActions.ListAllCategories());
         }
       })
@@ -130,7 +128,7 @@ export class FoodCategoryState {
           patchState({
             loading: false
           });
-          this.notifier.successNotification(`Sucessfully retrieved food categories`);
+          this.notifier.successNotification(`Sucessfully deleted food category: ${res.payload.name}`);
           this.store.dispatch(new FoodCategoryActions.ListAllCategories());
         }
       })

@@ -1,0 +1,26 @@
+.searchInput {
+  ::ng-deep .mat-form-field-underline {
+    display: none !important;
+  }
+}
+
+.searchIcon {
+  font-size: 18px;
+  color: #5f6670;
+  margin-left: 16px;
+  margin-right: 8px;
+}
+
+mat-form-field {
+  margin: 0;
+  padding: 0;
+}
+
+.filter-section {
+  // height: 50px !important;
+  padding: 0px 16px;
+}
+
+mat-icon {
+  font-size: 20px;
+}

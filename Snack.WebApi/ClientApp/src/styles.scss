@@ -3,9 +3,8 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-
 .brand-text {
-  color: accent;
+  color: map-get($themes-map, 'primary-base') !important;
 }
 
 // notification snackbar styling
@@ -40,3 +39,115 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   align-items: center;
 }
 
+// ends here
+
+// custom content card
+.custom-content-card.mat-card {
+  border-radius: 8px;
+  padding: 0;
+}
+
+.custom-edit-sidenav {
+  width: 380px;
+  padding: 0;
+}
+
+
+// table styles
+.selectedRow {
+  background: lightblue !important;
+
+  // .mat-cell,
+  // .kvl-link-base > span > a,
+  // .mat-button {
+  //     // color: map-get($neutrals-map, light) !important;
+  // }
+
+  // .mat-checkbox-frame {
+  //     border-color: map-get($neutrals-map, light) !important;
+  // }
+
+  // .containsCheckbox & {
+  //     background: map-get($primary-light-map, PL70) !important;
+
+  //     .mat-cell,
+  //     .kvl-link-base > span > a,
+  //     .mat-button {
+  //         color: map-get($neutrals-map, accent) !important;
+  //     }
+  // }
+}
+
+// .mat-row .cdk-column-select {
+//   border-right: 1px solid map-get($neutrals-map, N60);
+// }
+
+// .previouslySelectedRow {
+//   background: map-get($primary-light-map, PL70) !important;
+// }
+
+.mat-header-row {
+  min-height: 50px !important;
+}
+
+.mat-header-cell {
+  font-size: 13px !important;
+  // color: map-get($neutrals-map, N100) !important;
+}
+
+.mat-cell {
+  font-size: 16px !important;
+
+  div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+  }
+
+  &.mat-column-select div {
+      overflow: visible;
+  }
+}
+
+.mat-row {
+  border: none;
+  min-height: 40px !important;
+  height: auto;
+  cursor: pointer;
+
+  // &:nth-child(even) {
+  //     background: rgb(255, 250, 250);
+
+  //     &:hover {
+  //         background: darken(rgb(214, 214, 214), 4%);
+  //     }
+  // }
+
+  // &:nth-child(odd) {
+  //     background-color: #fff;
+
+  //     &:hover {
+  //         background: darken(#fff, 4%);
+  //     }
+  // }
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+
+// table ends
+
+
+.edit-section-header {
+  height: 56px !important;
+
+  .edit-header-text {
+    font-weight: 400;
+  }
+
+  mat-icon {
+    font-size: 18px;
+  }
+}

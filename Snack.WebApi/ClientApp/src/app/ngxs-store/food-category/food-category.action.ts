@@ -18,8 +18,8 @@ export namespace FoodCategoryActions {
   export class UpdateCategory {
     static readonly type = '[CATEGORY] UPDATE';
     constructor(
+      public id: string,
       public payload: FoodCategoryCreateRequest,
-      public id: string
       ) { }
   }
 

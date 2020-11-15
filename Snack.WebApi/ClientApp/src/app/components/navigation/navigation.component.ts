@@ -64,7 +64,7 @@ export class NavigationComponent implements OnInit {
   }
 
   updateToDarkTheme(e: any) {
-    this.colorModeUpdated.emit(e.value);
+    this.colorModeUpdated.emit(e.checked);
   }
 
 }

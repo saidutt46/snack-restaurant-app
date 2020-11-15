@@ -23,10 +23,6 @@ export class ManagerialAccessGuard implements CanActivate {
       const userState = currentState['user'];
       const hasAccess = userState.hasManagerialAccess;
       const userAuthenticated = userState.isAuthenticated;
-      console.warn(currentState);
-      console.warn(userState);
-      console.warn(hasAccess);
-      console.warn(userAuthenticated);
       if (hasAccess && userAuthenticated) {
         console.log('access granted to the page');
         return true;

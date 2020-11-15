@@ -1,8 +1,14 @@
 .main-window {
-  padding: 16px;
+  // padding: 16px;
   width: 100%;
   height: calc(100vh - 64px);
-  overflow: auto;
+  overflow: hidden;
+
+  .admin-options-section {
+    padding: 32px;
+    height: calc(100vh - 128px);
+    overflow: auto;
+  }
 }
 
 .custom-card {

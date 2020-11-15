@@ -20,7 +20,7 @@
   </mat-form-field>
   <mat-slide-toggle class="theming-option" (click)="$event.stopPropagation()"
     color="accent"
-    (selectionChange)="updateToDarkTheme($event)">
+    (change)="updateToDarkTheme($event)">
     Dark Mode
   </mat-slide-toggle>
 </mat-menu>

@@ -1,9 +1,10 @@
 import { FoodCategoryModel } from './../../models/food-category.model';
 import { Observable } from 'rxjs';
 import { FoodCategorySelector } from './../../ngxs-store/food-category/food-category.selector';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { FoodCategoryActions } from 'src/app/ngxs-store/food-category/food-category.action';
+import { MatDrawer, MatSidenav } from '@angular/material';
 
 @Component({
   selector: 'app-categories-management',
@@ -13,18 +14,20 @@ import { FoodCategoryActions } from 'src/app/ngxs-store/food-category/food-categ
 export class CategoriesManagementComponent implements OnInit {
   @Select(FoodCategorySelector.getPageLoading) loading$: Observable<boolean>;
   @Select(FoodCategorySelector.getFormLoading) formLoading$: Observable<boolean>;
-  @Select(FoodCategorySelector.getAllCategories) categoriesList$: Observable<FoodCategoryModel[]>;
   list: FoodCategoryModel[];
+  currentCategorySelected: FoodCategoryModel;
+  @ViewChild('drawer', {static: true}) public drawer: MatDrawer;
   constructor(
     private store: Store
   ) { }
 
   ngOnInit() {
     this.store.dispatch(new FoodCategoryActions.ListAllCategories());
-    this.categoriesList$.subscribe(r => {
-      console.warn(r);
-      this.list = r;
-    });
+  }
+
+  updateEditForm(category: FoodCategoryModel) {
+    this.drawer.open();
+    this.currentCategorySelected = category;
   }
 
 }

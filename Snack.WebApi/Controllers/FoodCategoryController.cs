@@ -69,6 +69,7 @@ namespace Snack.WebApi.Controllers
         }
 
         [HttpPut]
+        [Route("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] FoodCategoryCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -85,6 +86,7 @@ namespace Snack.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Route("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid)
