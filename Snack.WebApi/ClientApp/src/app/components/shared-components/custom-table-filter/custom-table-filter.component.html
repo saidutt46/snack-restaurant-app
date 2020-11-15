@@ -1,0 +1,7 @@
+<div color="primary" class="filter-section" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+  <mat-form-field fxFlex>
+    <mat-label>Filter</mat-label>
+    <input matInput id="filter" matTooltip="Filter" (blur)="isFocused=false;" (focus)="isFocused = true;"
+    (keyup)="applyFilter($event.target.value)" [(value)]="filterVal" placeholder="Filter">
+  </mat-form-field>
+</div>

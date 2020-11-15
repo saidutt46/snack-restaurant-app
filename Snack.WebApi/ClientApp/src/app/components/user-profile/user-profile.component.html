@@ -1,0 +1,12 @@
+<div *ngIf="isAuthenticated$ |async" fxFlex fxLayout="column" fxLayoutGap="16px">
+  <div fxFlex fxLayout="row" fxLayoutGap="16px">
+    <span matTooltip="{{profile.firstName + ' ' + profile.lastName}}" fxLayoutAlign="center center" class="initials-section">{{getUserInitials() | uppercase}}</span>
+    <div fxFlex fxLayout="column" fxLayoutGap="8px">
+      <span class="user-name">{{profile.userName | titlecase}}</span>
+      <span class="email">{{profile.email}}</span>
+    </div>
+  </div>
+  <div fxLayoutAlign="end center">
+    <button color="primary" *ngIf="isAuthenticated$ | async" mat-flat-button (click)="logout()">LOGOUT</button>
+  </div>
+</div>

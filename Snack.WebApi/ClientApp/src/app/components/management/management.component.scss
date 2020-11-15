@@ -1,0 +1,46 @@
+.main-window {
+  // padding: 16px;
+  width: 100%;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+
+  .admin-options-section {
+    padding: 32px;
+    height: calc(100vh - 128px);
+    overflow: auto;
+  }
+}
+
+.custom-card {
+  width: 200px;
+  height: 200px;
+  color: whitesmoke;
+  font-weight: 700;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+.one {
+  background-image: linear-gradient(to top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+}
+
+.two {
+  background-image: linear-gradient(to top, #4b88e3, #009fd1, #43abae, #87af9a, #aeb2a4);
+}
+
+.three {
+  background-image: linear-gradient(to top, #e34b78, #f96857, #f89136, #e2bc24, #b7e447);
+}
+
+.four {
+  background-image: linear-gradient(to top, #d435b5, #887dfa, #00aaff, #00c8f9, #39ddd7);
+}
+
+.five {
+  background-image: linear-gradient(to top, #d435b5, #ff3c80, #ff734c, #ffab23, #d4dd39);
+}
+
+.six {
+  background-image: linear-gradient(to top, #50f37a, #00dece, #00beff, #008eff, #9c39dd);
+}

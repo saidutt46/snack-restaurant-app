@@ -1,0 +1,23 @@
+<!-- <app-loading-bar *ngIf="loading$ | async"></app-loading-bar> -->
+<div class="loading-section" *ngIf="loading || (loading$ | async)">
+  <app-loading-spinner [diameter]="40"></app-loading-spinner>
+</div>
+<h2 mat-dialog-title>ADD CATEGORY</h2>
+
+<mat-dialog-content>
+
+  <form fxFlex fxLayoutGap="16px" fxLayout="column" [formGroup]="addForm">
+    <mat-form-field>
+      <input required id="name" matInput formControlName="name" placeholder="Category Name">
+    </mat-form-field>
+    <mat-form-field>
+      <input id="description" matInput formControlName="description" placeholder="Description">
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+    <button class="mat-raised-button"(click)="dialog.closeAll()">Close</button>
+    <button [disabled]="addForm.invalid" class="mat-raised-button mat-primary"(click)="saveCategory()">Save</button>
+</mat-dialog-actions>

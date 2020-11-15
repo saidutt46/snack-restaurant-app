@@ -8,6 +8,7 @@
     <div class="button-section" fxLayoutGap="16px" fxLayoutAlign="start center">
       <button mat-flat-button color="accent"> Dining </button>
       <button mat-flat-button color="primary"> Take Out </button>
+      <button *ngIf="hasManagerialAccess$ | async" mat-raised-button (click)="manageInventory()">MANAGE</button>
     </div>
   </div>
 </div>

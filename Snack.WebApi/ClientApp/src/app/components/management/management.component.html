@@ -1,0 +1,12 @@
+<div class="main-window" fxFlex fxLayout="column">
+  <app-context-header [title]="'Administrative Settings'">
+  </app-context-header>
+  <div class="admin-options-section" *ngIf="accessDetails" fxFlex fxLayout="row" fxLayoutGap="32px">
+    <div fxLayoutAlign="start start"
+    *ngFor="let detail of accessDetails">
+    <mat-card (click)="manageUserSelection(detail.route)" [ngClass]="[detail.backgroundCss, 'custom-card']" fxLayoutAlign="center center">
+      {{detail.displayName}}
+    </mat-card>
+    </div>
+  </div>
+</div>

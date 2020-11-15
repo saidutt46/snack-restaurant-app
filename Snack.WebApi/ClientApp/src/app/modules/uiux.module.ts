@@ -3,7 +3,7 @@ import {
   MatAutocompleteModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule,
   MatDialogModule, MatExpansionModule, MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule,
   MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule,
-  MatSidenavModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule,
+  MatSidenavModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule,
   MatToolbarModule, MatTooltipModule
 } from '@angular/material';
 
@@ -35,7 +35,8 @@ import {
       MatProgressSpinnerModule,
       MatExpansionModule,
       MatSortModule,
-      MatChipsModule
+      MatChipsModule,
+      MatSlideToggleModule
   ],
   exports: [
       MatButtonModule,
@@ -64,7 +65,8 @@ import {
       MatProgressSpinnerModule,
       MatExpansionModule,
       MatSortModule,
-      MatChipsModule
+      MatChipsModule,
+      MatSlideToggleModule
   ]
 })
 export class UiuxModule { }

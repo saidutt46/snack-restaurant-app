@@ -9,6 +9,7 @@ using Snack.WebApi.Extensions;
 namespace Snack.WebApi.Controllers
 {
     [Route("/api/[controller]")]
+    [Authorize(Roles = "Manager, Admin, SuperUser")]
     public class FoodCategoryController : ControllerBase
     {
         private IFoodCategoryService _foodCategorySerive;
@@ -68,6 +69,7 @@ namespace Snack.WebApi.Controllers
         }
 
         [HttpPut]
+        [Route("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] FoodCategoryCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -84,6 +86,7 @@ namespace Snack.WebApi.Controllers
         }
 
         [HttpDelete]
+        [Route("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid)

@@ -1,0 +1,19 @@
+{
+  "manager-management": [
+    {
+      "displayName": "Manager Users",
+      "route": "user-management",
+      "backgroundCss": ""
+    },
+    {
+      "displayName": "Food Categories",
+      "route": "food-categories",
+      "backgroundCss": ""
+    },
+    {
+      "displayName": "Food Items",
+      "route": "food-items",
+      "backgroundCss": ""
+    }
+  ]
+}

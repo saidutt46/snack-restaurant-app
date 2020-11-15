@@ -17,5 +17,10 @@ export class UserStateSelector {
   static isAuthenticated(state: UserStateModel) {
     return state.isAuthenticated;
   }
+
+  @Selector([UserState])
+  static formLoading(state: UserStateModel) {
+    return state.formLoading;
+  }
 }
 

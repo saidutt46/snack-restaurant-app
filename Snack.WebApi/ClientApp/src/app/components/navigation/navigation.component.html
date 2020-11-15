@@ -4,7 +4,23 @@
   </div>
   <div fxLayout="row">
     <button *ngIf="!isAuthenticated" mat-button (click)="userLogin()">LOGIN</button>
-    <button *ngIf="hasManagerialAccess$ | async" mat-button (click)="registerUser()">REGISTER</button>
-    <button *ngIf="isAuthenticated" mat-button (click)="logout()">LOGOUT</button>
+    <button *ngIf="isAuthenticated" class="menu-button-option" mat-icon-button (click)="openUserMenu()"><mat-icon>account_circle</mat-icon></button>
+    <button class="menu-button-option" mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon></button>
   </div>
 </mat-toolbar>
+
+<mat-menu #menu="matMenu">
+  <mat-form-field class="theming-option" (click)="$event.stopPropagation()">
+    <mat-label>Select theme</mat-label>
+    <mat-select (selectionChange)="updateTheme($event)">
+      <mat-option *ngFor="let theme of themeOptions" [value]="theme">
+        {{theme}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-slide-toggle class="theming-option" (click)="$event.stopPropagation()"
+    color="accent"
+    (change)="updateToDarkTheme($event)">
+    Dark Mode
+  </mat-slide-toggle>
+</mat-menu>
