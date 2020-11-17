@@ -1,11 +1,12 @@
-@import "themes";
+@import "./assets/themes/custom-theme.scss";
+
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-.brand-text {
-  color: map-get($themes-map, 'primary-base') !important;
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
 
 // notification snackbar styling
 

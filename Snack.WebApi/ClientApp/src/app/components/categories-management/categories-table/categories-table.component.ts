@@ -40,6 +40,7 @@ export class CategoriesTableComponent implements OnInit, AfterViewInit {
     this.categoriesList$.subscribe(res => {
       this.categories = res;
       this.dataSource.data = this.categories;
+      this.selection.clear();
     });
   }
 

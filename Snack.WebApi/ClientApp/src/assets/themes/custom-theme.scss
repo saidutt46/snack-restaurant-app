@@ -1,46 +1,29 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 
-// Include non-theme styles for core.
 @include mat-core();
 
-$mat-custom-theme: (
-        50: #e8f5e9,
-        100: #c8e6c9,
-        200: #a5d6a7,
-        300: #81c784,
-        400: #66bb6a,
-        500: #3dc046,
-        600: #43a047,
-        700: #388e3c,
-        800: #2e7d32,
-        900: #1b5e20,
-        A100: #b9f6ca,
-        A200: #69f0ae,
-        A400: #00e676,
-        A700: #00c853,
-        contrast: (
-                50: $dark-primary-text,
-                100: $dark-primary-text,
-                200: $dark-primary-text,
-                300: $dark-primary-text,
-                400: $dark-primary-text,
-                500: $light-primary-text,
-                600: $light-primary-text,
-                700: $light-primary-text,
-                800: $light-primary-text,
-                900: $light-primary-text,
-                A100: $dark-primary-text,
-                A200: $light-primary-text,
-                A400: $light-primary-text,
-                A700: $light-primary-text,
-        )
-);
+$custom-app-primary: mat-palette($mat-indigo);
+$custom-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$custom-app-warn:    mat-palette($mat-red);
 
-// Define a theme.
-$primary: mat-palette($mat-custom-theme);
-$accent:  mat-palette($mat-pink, A200, A100, A400);
+$primary: map-get($custom-app-primary, 500);
+$accent: map-get($custom-app-accent, 200);
 
-$theme: mat-light-theme($primary, $accent);
+$custom-app-theme: mat-light-theme($custom-app-primary, $custom-app-accent, $custom-app-warn);
 
-// Include all theme styles for the components.
-@include angular-material-theme($theme);
+@include angular-material-theme($custom-app-theme);
+
+// Define an alternate dark theme.
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent:  mat-palette($mat-amber, A200, A100, A400);
+$dark-warn:    mat-palette($mat-deep-orange);
+
+// Include the dark color styles inside of a block with a CSS class. You can make this
+// CSS class whatever you want. In this example, any component inside of an element with
+// `.unicorn-dark-theme` will be affected by this alternate dark theme instead of the default theme.
+.custom-dark-theme {
+  $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+  $primary: map-get($dark-theme, 500);
+  $accent: map-get($dark-theme, 200);
+  @include angular-material-theme($dark-theme);
+}
