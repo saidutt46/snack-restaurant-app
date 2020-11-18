@@ -64,6 +64,10 @@ export class AppComponent implements OnInit {
 
   updateColorMode(e: boolean) {
     this.isThemeDark = e;
-    this.setActiveTheme(this.activeTheme);
+    if (e) {
+      this.overlayContainer.getContainerElement().classList.add('custom-dark-theme');
+    } else {
+      this.overlayContainer.getContainerElement().classList.remove('custom-dark-theme');
+    }
   }
 }
