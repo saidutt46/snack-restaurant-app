@@ -11,13 +11,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Snack.Data.DataModels;
 using Snack.Data.IdentityModels;
 using Snack.Dto.DtoModels;
 using Snack.Dto.Requests;
 using Snack.Dto.Responses;
+using Snack.Repository.DatabaseContext;
 using Snack.WebApi.Extensions;
 
 namespace Snack.WebApi.Controllers
@@ -29,14 +32,17 @@ namespace Snack.WebApi.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly ILogger<AuthenticationController> _logger;
+
 
         public AuthenticationController(UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper)
+            RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper mapper, ILogger<AuthenticationController> logger)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _configuration = configuration;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -243,33 +249,104 @@ namespace Snack.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("logout/{id}")]
+        [Route("{id}/addroles")]
         [Authorize]
-        public async Task<IActionResult> Logout(string id)
+        public async Task<IActionResult> AddRoles(string id,[FromBody] List<string> addRoles)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Provided User Id is not a valid string or Guid");
-            var user = HttpContext.User;
-            if (user?.Identity.IsAuthenticated == true)
+            try
             {
-                // delete local authentication cookie
                 var userExists = await userManager.FindByIdAsync(id);
-                await userManager.RemoveClaimsAsync(userExists, user.Claims);
-                await HttpContext.SignOutAsync();
-                // raise the logout event
-                return Ok("Successfully logged out user");
+                if (userExists == null)
+                    return StatusCode(StatusCodes.Status404NotFound, new AuthResponse { Success = false, Status = "Error", Errors = new List<string> { "User Not Found" } });
+                var updatedRoles = await userManager.AddToRolesAsync(userExists, addRoles);
+                var userRoles = await userManager.GetRolesAsync(userExists);
+                List<string> roles = new List<string>();
+                foreach (var userRole in userRoles)
+                {
+                    roles.Add(userRole);
+                }
+                UserProfileDto user = _mapper.Map<ApplicationUser, UserProfileDto>(userExists);
+                user.Roles = roles;
+                return Ok(user);
             }
-            return BadRequest("Logout Unsuccessful, please try again!");
 
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpGet]
-        [Route("userclaims")]
-        public IActionResult GetClaimDetails()
+        [HttpPost]
+        [Route("{id}/removeroles")]
+        [Authorize]
+        public async Task<IActionResult> RemoveRoles(string id, [FromBody] List<string> rolesTobeRemoved)
         {
-            Claim[] claims = User.Claims.ToArray();
-            return Ok(claims);
+            if (!ModelState.IsValid)
+                return BadRequest("Provided User Id is not a valid string or Guid");
+            try
+            {
+                var userExists = await userManager.FindByIdAsync(id);
+                if (userExists == null)
+                    return StatusCode(StatusCodes.Status404NotFound, new AuthResponse { Success = false, Status = "Error", Errors = new List<string> { "User Not Found" } });
+                var removeRoles = await userManager.RemoveFromRolesAsync(userExists, rolesTobeRemoved);
+                var userRoles = await userManager.GetRolesAsync(userExists);
+                List<string> roles = new List<string>();
+                foreach (var userRole in userRoles)
+                {
+                    roles.Add(userRole);
+                }
+                UserProfileDto user = _mapper.Map<ApplicationUser, UserProfileDto>(userExists);
+                user.Roles = roles;
+                return Ok(user);
+            }
 
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //[HttpPost]
+        //[Route("logout")]
+        //[Authorize]
+        //public async Task<IActionResult> Logout()
+        //{
+        //    await _signInManager.SignOutAsync();
+        //    _logger.LogInformation("User logged out.");
+        //    return Ok("Successfully logged out user");
+
+        //}
+        [HttpGet]
+        [Route("listall")]
+        public async Task<IActionResult> ListAll()
+        {
+            try
+            {
+                IList<UserProfileDto> result = new List<UserProfileDto>();
+                await Task.Run(async () =>
+                {
+                    var users = userManager.Users;
+                    foreach(ApplicationUser user in users)
+                    {
+                        var userRoles = await userManager.GetRolesAsync(user);
+                        List<string> roles = new List<string>();
+                        foreach (var userRole in userRoles)
+                        {
+                            roles.Add(userRole);
+                        }
+                        UserProfileDto convertedResult = _mapper.Map<ApplicationUser, UserProfileDto>(user);
+                        convertedResult.Roles = roles;
+                        result.Add(convertedResult);
+                    }
+                });
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

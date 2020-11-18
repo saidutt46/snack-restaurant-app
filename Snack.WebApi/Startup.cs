@@ -74,6 +74,7 @@ namespace Snack.WebApi
             // For Identity  
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<SnackContext>()
+                .AddRoles<IdentityRole>()
                 .AddDefaultTokenProviders();
 
             // Adding Authentication  
@@ -99,12 +100,12 @@ namespace Snack.WebApi
                 };
             });
 
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("ManagerialPolicy", policy => policy.RequireRole("SuperUser", "Manager", "Admin"));
-            //});
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ManagerialPolicy", policy => policy.RequireRole("SuperUser", "Manager", "Admin"));
+            });
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
+            //Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Snack Restaurant Management API", Version = "v1" });
