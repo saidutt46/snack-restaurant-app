@@ -10,14 +10,14 @@
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
-  <mat-form-field class="theming-option" (click)="$event.stopPropagation()">
+  <!-- <mat-form-field class="theming-option" (click)="$event.stopPropagation()">
     <mat-label>Select theme</mat-label>
     <mat-select (selectionChange)="updateTheme($event)">
       <mat-option *ngFor="let theme of themeOptions" [value]="theme">
         {{theme}}
       </mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field> -->
   <mat-slide-toggle class="theming-option" (click)="$event.stopPropagation()"
     color="accent"
     (change)="updateToDarkTheme($event)">
