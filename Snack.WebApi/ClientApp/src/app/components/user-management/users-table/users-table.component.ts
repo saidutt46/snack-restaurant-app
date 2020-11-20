@@ -1,3 +1,4 @@
+import { UserAddComponent } from './../user-add/user-add.component';
 import { UserActions } from 'src/app/ngxs-store/user/user.action';
 import { CompanyCustomRoleModel } from './../../../models/company-role.model';
 import { CompanyRoleStateSelector } from './../../../ngxs-store/company-roles/company-roles.selector';
@@ -33,13 +34,16 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   constructor(
     protected store: Store,
     @Inject(LOGGING_SERV_TOKEN) protected logger: ConsoleLoggingService,
-    @Inject(NOTIFICATION_SERV_TOKEN) protected notifier: INotificationService  ) { }
+    @Inject(NOTIFICATION_SERV_TOKEN) protected notifier: INotificationService,
+    private dialog: MatDialog
+    ) { }
 
   ngOnInit() {
     this.roles$.subscribe(roles => {
       this.customRoles = roles;
     });
     this.users$.subscribe(res => {
+      this.hasRecords = res.length > 0 ? true : false;
       this.users = res;
       this.dataSource.data = this.users;
       this.selection.clear();
@@ -95,6 +99,12 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
 
   getRoleName(id: string): string {
     return this.customRoles.find(e => e.id === id).roleName;
+  }
+
+  addUser() {
+    this.dialog.open(UserAddComponent, {
+      width: '30%'
+    });
   }
 
 }

@@ -3,7 +3,13 @@
   <app-loading-spinner [diameter]="100"></app-loading-spinner>
 </ng-template>
 <ng-template #loaded>
-  <div fxFlex fxLayout="column">
+  <div *ngIf="!hasRecords">
+    <div class="no-records-section" fxLayoutAlign="center center" fxLayout="column">
+      <span class="mat-h3 no-records-message">Its empty out here...</span>
+      <button mat-raised-button color="accent" (click)="addUser()">ADD USER</button>
+    </div>
+  </div>
+  <div fxFlex fxLayout="column" *ngIf="hasRecords">
     <ng-container>
       <div class="custom-actions-toolbar">
         <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">

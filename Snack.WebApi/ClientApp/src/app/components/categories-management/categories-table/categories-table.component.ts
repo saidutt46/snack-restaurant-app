@@ -1,8 +1,7 @@
-import { FoodCategoryActions } from 'src/app/ngxs-store/food-category/food-category.action';
 import { CategoriesAddComponent } from './../categories-add/categories-add.component';
+import { FoodCategoryActions } from 'src/app/ngxs-store/food-category/food-category.action';
 import { FoodCategoryModel } from './../../../models/food-category.model';
-import { AfterViewInit, Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
-import { IPSColumn } from '../../shared-components/table-model/column-def';
+import { AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { NOTIFICATION_SERV_TOKEN, INotificationService } from 'src/app/services';
 import { LOGGING_SERV_TOKEN, ConsoleLoggingService } from 'src/app/services/logging.service';
@@ -19,17 +18,16 @@ import { MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 export class CategoriesTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   hasRecords: boolean;
-  readonly psColumnDefs: IPSColumn[];
+  records: FoodCategoryModel[];
   categories: FoodCategoryModel[];
   displayedColumns: string[] = ['select', 'name', 'description', 'actions'];
   dataSource = new MatTableDataSource<FoodCategoryModel>();
   selection = new SelectionModel<FoodCategoryModel>(true, []);
-  @Select(FoodCategorySelector.getAllCategories) categoriesList$: Observable<FoodCategoryModel[]>;
   @Select(FoodCategorySelector.getPageLoading) loading$: Observable<boolean>;
+  @Select(FoodCategorySelector.getAllCategories) categoriesList$: Observable<FoodCategoryModel[]>;
+
   @Output() categorySelected: EventEmitter<FoodCategoryModel> = new EventEmitter<FoodCategoryModel>(undefined);
   @Output() refreshAndCloseEditPanel: EventEmitter<any> = new EventEmitter<any>(undefined);
-
-
 
   constructor(
     protected store: Store,
@@ -41,6 +39,7 @@ export class CategoriesTableComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.categoriesList$.subscribe(res => {
       this.categories = res;
+      this.hasRecords = res.length > 0 ? true : false;
       this.dataSource.data = this.categories;
       this.selection.clear();
     });
@@ -82,17 +81,17 @@ export class CategoriesTableComponent implements OnInit, AfterViewInit {
     this.categorySelected.emit(row);
   }
 
-  addCategory() {
-    this.dialog.open(CategoriesAddComponent, {
-      width: '30%'
-    });
-  }
-
   deleteSelected() {
     this.refreshAndCloseEditPanel.emit();
     const selected = this.selection.selected;
     selected.forEach(category => {
       this.store.dispatch(new FoodCategoryActions.DeleteCategory(category.id));
+    });
+  }
+
+  addCategory() {
+    this.dialog.open(CategoriesAddComponent, {
+      width: '30%'
     });
   }
 

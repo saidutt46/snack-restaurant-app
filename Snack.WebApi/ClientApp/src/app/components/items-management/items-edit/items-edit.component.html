@@ -1,0 +1,38 @@
+<div class="main-container" fxFlex fxLayout="column">
+  <mat-toolbar class="edit-section-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="edit-header-text">Edit Item</span>
+    <button class="edit-close-button" mat-icon-button (click)="closeEdit()"><mat-icon>clear</mat-icon></button>
+  </mat-toolbar>
+  <div class="content-section" fxFlex>
+    <div class="loading-section" *ngIf="loading$ | async">
+      <app-loading-spinner [diameter]="40"></app-loading-spinner>
+    </div>
+    <form [formGroup]="editForm" fxFlex fxLayout="column" fxLayoutGap="16px">
+      <mat-form-field>
+        <input required id="name" matInput formControlName="name" placeholder="Category Name">
+      </mat-form-field>
+      <mat-form-field>
+        <input id="description" matInput formControlName="description" placeholder="Description">
+      </mat-form-field>
+      <mat-form-field>
+        <input type="number" required id="unitPrice" matInput formControlName="unitPrice" placeholder="Price">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="foodCategoryId">
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{category.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input id="calories" matInput formControlName="calories" placeholder="Calories">
+      </mat-form-field>
+      <mat-checkbox mat id="availability" formControlName="availability">Available</mat-checkbox>
+    </form>
+  </div>
+  <mat-toolbar class="edit-section-footer" fxLayoutAlign="end center" fxLayoutGap="16px">
+    <button mat-flat-button (click)="closeEdit()">CLOSE</button>
+    <button [disabled]="editForm.invalid" mat-flat-button color="primary" (click)="saveItem()">SAVE</button>
+  </mat-toolbar>
+</div>

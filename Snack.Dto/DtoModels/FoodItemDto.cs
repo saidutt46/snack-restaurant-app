@@ -9,5 +9,6 @@ namespace Snack.Dto.DtoModels
         public bool Availability { get; set; }
         public decimal UnitPrice { get; set; }
         public int Calories { get; set; }
+        public Guid FoodCategoryId { get; set; }
     }
 }
