@@ -1,1 +1,21 @@
-<p>user-management works!</p>
+<div class="main-window" fxFlex fxLayout="column">
+  <app-context-header [title]="'Users Management'">
+    <div fxLayout="row" fxLayoutGap="16px">
+      <button color="primary" mat-button (click)="manageRoles()">MANAGE ROLES</button>
+      <button color="primary" mat-raised-button (click)="registerUser()">ADD USER</button>
+    </div>
+  </app-context-header>
+  <div class="users-content-section">
+    <mat-card fxFlex class="custom-content-card mat-elevation-z10">
+      <mat-drawer-container fxFlex class="custom-drawer-container" autosize>
+        <div class="custom-drawer-content">
+          <app-users-table fxFlex (userSelected)="updateEditForm($event)"></app-users-table>
+        </div>
+        <mat-drawer [position]="'end'" #drawer class="custom-edit-sidenav" mode="side">
+          <div *ngIf="!currentUserSelected">please select</div>
+          <app-user-edit fxFlex (closePanel)="drawer.close()" *ngIf="currentUserSelected" [currentUser]="currentUserSelected"></app-user-edit>
+        </mat-drawer>
+      </mat-drawer-container>
+    </mat-card>
+  </div>
+</div>

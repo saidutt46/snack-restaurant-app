@@ -8,4 +8,5 @@ export class UserProfileModel {
   gender: number;
   designation: string;
   roles: string[];
+  phoneNumber: string;
 }

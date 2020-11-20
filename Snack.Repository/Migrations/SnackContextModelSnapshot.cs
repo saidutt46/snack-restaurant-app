@@ -158,7 +158,7 @@ namespace Snack.Repository.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("ComapnyRoleId")
+                    b.Property<Guid>("CompanyRoleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -224,7 +224,7 @@ namespace Snack.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ComapnyRoleId");
+                    b.HasIndex("CompanyRoleId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -378,7 +378,7 @@ namespace Snack.Repository.Migrations
                 {
                     b.HasOne("Snack.Data.DataModels.CompanyRole", "CurrentRole")
                         .WithMany("Users")
-                        .HasForeignKey("ComapnyRoleId")
+                        .HasForeignKey("CompanyRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

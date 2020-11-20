@@ -11,7 +11,7 @@ namespace Snack.Dto.Shared
         public DataProfile()
         {
             CreateMap<ApplicationUser, UserProfileDto>().ForMember(p => p.Designation,
-                opt => opt.MapFrom(src => src.ComapnyRoleId));
+                opt => opt.MapFrom(src => src.CompanyRoleId));
             CreateMap<CompanyRole, CompanyRoleDto>();
             CreateMap<CreateCompanyRoleRequest, CompanyRole>();
             CreateMap<FoodCategory, FoodCategoryDto>();

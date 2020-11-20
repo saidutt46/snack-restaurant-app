@@ -11,3 +11,9 @@ export class BaseDtoResponse<T> {
   error: string;
   success: boolean;
 }
+
+export class AuthBaseResponse {
+  success: boolean;
+  status: string;
+  message: string;
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Snack.Dto.Requests
@@ -25,11 +26,12 @@ namespace Snack.Dto.Requests
         public DateTime DateJoined { get; set; }
 
         [Required(ErrorMessage = "Current User Designation/Title is required")]
-        public Guid ComapnyRoleId { get; set; }
+        public Guid CompanyRoleId { get; set; }
 
         [Required(ErrorMessage = "User needs to have role when being created")]
-        public string UserRole { get; set; }
+        public List<string> UserRoles { get; set; }
 
+        public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int Gender { get; set; }
     }
