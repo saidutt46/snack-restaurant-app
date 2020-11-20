@@ -18,9 +18,10 @@ namespace Snack.Repository.DatabaseContext
         {
             base.OnModelCreating(builder);
             builder.Entity<ApplicationUser>().HasOne(p => p.CurrentRole).WithMany(s => s.Users)
-                .HasForeignKey(g => g.ComapnyRoleId);
+                .HasForeignKey(g => g.CompanyRoleId);
 
             builder.Entity<CompanyRole>().HasMany(p => p.Users).WithOne(g => g.CurrentRole);
+            builder.Entity<CompanyRole>().HasKey(p => p.Id);
 
             builder.Entity<FoodCategory>().HasMany(p => p.FoodItems).WithOne(s => s.FoodCategory);
             builder.Entity<FoodItem>().HasOne(p => p.FoodCategory).WithMany(s => s.FoodItems)

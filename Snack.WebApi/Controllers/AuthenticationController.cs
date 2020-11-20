@@ -88,15 +88,6 @@ namespace Snack.WebApi.Controllers
                     UserProfileDto currentUser = _mapper.Map<ApplicationUser, UserProfileDto>(user);
                     currentUser.Roles = roles;
 
-                    //var z = User;
-                    //var userIdentity = (ClaimsIdentity)User.Identity;
-                    //var claims = userIdentity.Claims;
-                    //var roleClaimType = userIdentity.RoleClaimType;
-                    ////var roles = claims.Where(c => c.Type == ClaimTypes.Role).ToList();
-
-                    //// or...
-                    //var roles = claims.Where(c => c.Type == roleClaimType).ToList();
-
                     LoginResponse response = new LoginResponse
                     {
                         Token = convertedToken,
@@ -118,6 +109,7 @@ namespace Snack.WebApi.Controllers
 
         [HttpPost]
         [Route("register")]
+        [Authorize(Policy = "ManagerialPolicy")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
@@ -137,8 +129,9 @@ namespace Snack.WebApi.Controllers
                     FirstName = model.FirstName,
                     DateJoined = model.DateJoined,
                     Gender = model.Gender,
-                    ComapnyRoleId = model.ComapnyRoleId,
-                    DateOfBirth = model.DateOfBirth
+                    CompanyRoleId = model.CompanyRoleId,
+                    DateOfBirth = model.DateOfBirth,
+                    PhoneNumber = model.PhoneNumber
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
@@ -152,13 +145,12 @@ namespace Snack.WebApi.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse { Status = "Error", Message = message });
                 }
 
-                if (!await roleManager.RoleExistsAsync(model.UserRole))
-                    await roleManager.CreateAsync(new IdentityRole(model.UserRole));
-
-                if (await roleManager.RoleExistsAsync(model.UserRole))
+                foreach(var role in model.UserRoles)
                 {
-                    await userManager.AddToRoleAsync(user, model.UserRole);
+                    if (!await roleManager.RoleExistsAsync(role))
+                        await roleManager.CreateAsync(new IdentityRole(role));
                 }
+                await userManager.AddToRolesAsync(user, model.UserRoles);
 
                 return Ok(new AuthResponse { Success = true, Status = "Success", Message = "User created successfully!" });
             }
@@ -170,6 +162,7 @@ namespace Snack.WebApi.Controllers
 
         [HttpPost]
         [Route("register-superuser")]
+        [Authorize(Policy = "ManagerialPolicy")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
@@ -188,9 +181,10 @@ namespace Snack.WebApi.Controllers
                     LastName = model.LastName,
                     FirstName = model.FirstName,
                     Gender = model.Gender,
-                    ComapnyRoleId = model.ComapnyRoleId,
+                    CompanyRoleId = model.CompanyRoleId,
                     DateJoined = model.DateJoined,
-                    DateOfBirth = model.DateOfBirth
+                    DateOfBirth = model.DateOfBirth,
+                    PhoneNumber = model.PhoneNumber
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
@@ -221,7 +215,7 @@ namespace Snack.WebApi.Controllers
 
         [HttpGet]
         [Route("userprofile/{id}")]
-        [Authorize(Roles = "Casher, Manager, SuperUser, Admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserProfile(string id)
         {
             if (!ModelState.IsValid)
@@ -250,7 +244,7 @@ namespace Snack.WebApi.Controllers
 
         [HttpPost]
         [Route("{id}/addroles")]
-        [Authorize]
+        [Authorize(Policy = "ManagerialPolicy")]
         public async Task<IActionResult> AddRoles(string id,[FromBody] List<string> addRoles)
         {
             if (!ModelState.IsValid)
@@ -280,7 +274,7 @@ namespace Snack.WebApi.Controllers
 
         [HttpPost]
         [Route("{id}/removeroles")]
-        [Authorize]
+        [Authorize(Policy = "ManagerialPolicy")]
         public async Task<IActionResult> RemoveRoles(string id, [FromBody] List<string> rolesTobeRemoved)
         {
             if (!ModelState.IsValid)
@@ -308,18 +302,9 @@ namespace Snack.WebApi.Controllers
             }
         }
 
-        //[HttpPost]
-        //[Route("logout")]
-        //[Authorize]
-        //public async Task<IActionResult> Logout()
-        //{
-        //    await _signInManager.SignOutAsync();
-        //    _logger.LogInformation("User logged out.");
-        //    return Ok("Successfully logged out user");
-
-        //}
         [HttpGet]
         [Route("listall")]
+        [Authorize(Policy = "ManagerialPolicy")]
         public async Task<IActionResult> ListAll()
         {
             try
@@ -348,5 +333,82 @@ namespace Snack.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        [Authorize(Policy = "ManagerialPolicy")]
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserProfileRequest request)
+        {
+            try
+            {
+                var user = await userManager.FindByIdAsync(id);
+                if (user == null)
+                    return StatusCode(StatusCodes.Status404NotFound, new AuthResponse { Success = false, Status = "Error", Errors = new List<string> { "User Not Found" } });
+                user.Email = request.Email;
+                user.FirstName = request.FirstName;
+                user.LastName = request.LastName;
+                user.UserName = request.UserName;
+                user.PhoneNumber = request.PhoneNumber;
+                user.DateOfBirth = request.DateOfBirth;
+                user.CompanyRoleId = request.Designation;
+                if (request.AddRoles.Count > 0)
+                {
+                    foreach (var role in request.AddRoles)
+                    {
+                        if (!await roleManager.RoleExistsAsync(role))
+                            await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                    await userManager.AddToRolesAsync(user, request.AddRoles);
+                }
+                if (request.RemoveRoles.Count > 0)
+                {
+                    await userManager.RemoveFromRolesAsync(user, request.RemoveRoles);
+                }
+                var updatedUser = await userManager.UpdateAsync(user);
+
+                if (updatedUser.Succeeded)
+                {
+                    var finalUser = await userManager.FindByIdAsync(id);
+                    var userRoles = await userManager.GetRolesAsync(finalUser);
+                    List<string> roles = new List<string>();
+                    foreach (var userRole in userRoles)
+                    {
+                        roles.Add(userRole);
+                    }
+                    UserProfileDto result = _mapper.Map<ApplicationUser, UserProfileDto>(finalUser);
+                    result.Roles = roles;
+                    return Ok(result);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status304NotModified, new AuthResponse { Success = false, Status = "Error", Errors = new List<string> { "User update failed, try again" } });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        [Authorize(Policy = "ManagerialPolicy")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                var user = await userManager.FindByIdAsync(id);
+                if (user == null)
+                    return StatusCode(StatusCodes.Status404NotFound, new AuthResponse { Success = false, Status = "Error", Errors = new List<string> { "User Not Found" } });
+                var delete = await userManager.DeleteAsync(user);
+                return Ok(new AuthResponse { Success = true, Status = "Success", Message = "User deleted successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

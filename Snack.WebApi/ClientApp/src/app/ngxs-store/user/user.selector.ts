@@ -22,5 +22,15 @@ export class UserStateSelector {
   static formLoading(state: UserStateModel) {
     return state.formLoading;
   }
+
+  @Selector([UserState])
+  static pageLoading(state: UserStateModel) {
+    return state.usersPageLoading;
+  }
+
+  @Selector([UserState])
+  static getAllUsers(state: UserStateModel) {
+    return state.allUsers;
+  }
 }
 

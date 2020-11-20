@@ -1,0 +1,27 @@
+.main-window {
+  // padding: 16px;
+  width: 100% !important;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+
+  .users-content-section {
+    padding: 8px;
+    height: calc(100vh - 128px);
+    overflow: auto;
+  }
+
+  .custom-drawer-content {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .custom-drawer-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .custom-content-card {
+    width: 100%;
+    overflow: hidden;
+  }
+}

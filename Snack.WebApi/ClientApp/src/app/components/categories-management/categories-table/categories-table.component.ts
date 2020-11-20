@@ -27,6 +27,8 @@ export class CategoriesTableComponent implements OnInit, AfterViewInit {
   @Select(FoodCategorySelector.getAllCategories) categoriesList$: Observable<FoodCategoryModel[]>;
   @Select(FoodCategorySelector.getPageLoading) loading$: Observable<boolean>;
   @Output() categorySelected: EventEmitter<FoodCategoryModel> = new EventEmitter<FoodCategoryModel>(undefined);
+  @Output() refreshAndCloseEditPanel: EventEmitter<any> = new EventEmitter<any>(undefined);
+
 
 
   constructor(
@@ -87,6 +89,7 @@ export class CategoriesTableComponent implements OnInit, AfterViewInit {
   }
 
   deleteSelected() {
+    this.refreshAndCloseEditPanel.emit();
     const selected = this.selection.selected;
     selected.forEach(category => {
       this.store.dispatch(new FoodCategoryActions.DeleteCategory(category.id));

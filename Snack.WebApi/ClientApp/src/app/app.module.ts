@@ -1,3 +1,8 @@
+import { UserAddComponent } from './components/user-management/user-add/user-add.component';
+import { CompanyRoleState } from './ngxs-store/company-roles/company-roles.state';
+import { UserEditComponent } from './components/user-management/user-edit/user-edit.component';
+import { UserRegistrationComponent } from './components/user-management/user-registration/user-registration.component';
+import { UsersTableComponent } from './components/user-management/users-table/users-table.component';
 import { CategoriesAddComponent } from './components/categories-management/categories-add/categories-add.component';
 import { CategoriesEditComponent } from './components/categories-management/categories-edit/categories-edit.component';
 import { CategoriesTableComponent } from './components/categories-management/categories-table/categories-table.component';
@@ -57,7 +62,12 @@ import { ConsoleLoggingService, LOGGING_SERV_TOKEN } from './services/logging.se
     CategoriesTableComponent,
     SortDirective,
     CategoriesEditComponent,
-    CategoriesAddComponent
+    CategoriesAddComponent,
+    UsersTableComponent,
+    UserRegistrationComponent,
+    UserEditComponent,
+    UserAddComponent
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -69,12 +79,18 @@ import { ConsoleLoggingService, LOGGING_SERV_TOKEN } from './services/logging.se
     FlexLayoutModule,
     UiuxModule,
     ReactiveFormsModule,
-    NgxsModule.forRoot([UserState, ManagerState, FoodCategoryState]),
+    NgxsModule.forRoot([UserState, ManagerState, FoodCategoryState, CompanyRoleState]),
     NgxsFormPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot({key: 'user'})
   ],
-  entryComponents: [LoginComponent, RegisterComponent, UserProfileComponent, CategoriesAddComponent],
+  entryComponents: [
+    LoginComponent,
+    RegisterComponent,
+    UserProfileComponent,
+    CategoriesAddComponent,
+    UserAddComponent
+  ],
   providers: [
     { provide: NOTIFICATION_SERV_TOKEN, useClass: NotificationService },
     {

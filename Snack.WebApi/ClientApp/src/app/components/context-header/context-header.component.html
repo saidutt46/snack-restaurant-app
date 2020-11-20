@@ -1,4 +1,7 @@
-<mat-toolbar>
-  <button class="back-option mat-elevation-z10" mat-icon-button (click)="takemeBack()"><mat-icon>keyboard_backspace</mat-icon></button>
-  <span class="title-value">{{title}}</span>
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxFlex>
+    <button class="back-option mat-elevation-z10" mat-icon-button (click)="takemeBack()"><mat-icon>keyboard_backspace</mat-icon></button>
+    <span class="title-value">{{title}}</span>
+  </div>
+  <ng-content></ng-content>
 </mat-toolbar>

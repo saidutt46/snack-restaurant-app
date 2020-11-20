@@ -1,0 +1,99 @@
+<div *ngIf="loading$ | async; then loading else loaded"></div>
+<ng-template #loading>
+  <app-loading-spinner [diameter]="100"></app-loading-spinner>
+</ng-template>
+<ng-template #loaded>
+  <div fxFlex fxLayout="column">
+    <ng-container>
+      <div class="custom-actions-toolbar">
+        <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+          <div *ngIf="(users$ | async)?.length > 0">
+            <mat-form-field fxLayoutAlign="start center" [floatLabel]="'never'" class="searchInput">
+              <input matInput (keyup)="applyFilter($event)" placeholder="Filter by name, description" #input>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="16px">
+            <button fxLayoutAlign="start center" mat-raised-button *ngIf="selection.selected.length > 0" (click)="deleteSelected()"> <mat-icon class="delete-icon">delete</mat-icon> DELETE </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="(users$ | async)?.length > 0">
+      <table fxFlex mat-table [dataSource]="dataSource" class="custom-table" matSort>
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th class="checkbox-column" mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td class="checkbox-column" mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- UserName Column -->
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+          <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+        </ng-container>
+
+        <!-- firstName Column -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+          <td class="limited-width-cell" mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        </ng-container>
+
+        <!-- Last name Column -->
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+          <td class="limited-width-cell" mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td class="limited-width-cell" mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <!-- Designation Column -->
+        <ng-container matColumnDef="designation">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+          <td mat-cell *matCellDef="let element"> {{getRoleName(element.designation)}} </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="roles">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> System Level Roles </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip-list [selectable]="false">
+              <ng-container *ngFor="let role of element.roles">
+                <mat-chip class="custom-mat-chip" [disableRipple]="true" [selectable]="false">{{role}}</mat-chip>
+              </ng-container>
+            </mat-chip-list>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Quick Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon>more_horiz</mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="showEdit(row)">
+        </tr>
+      </table>
+
+    </ng-container>
+  </div>
+</ng-template>

@@ -1,5 +1,4 @@
-export class UserProfileModel {
-  id: string;
+export class UserProfileUpdateRequestModel {
   email: string;
   userName: string;
   firstName: string;
@@ -7,6 +6,7 @@ export class UserProfileModel {
   dateOfBirth: Date;
   gender: number;
   designation: string;
-  roles: string[];
   phoneNumber: string;
+  addRoles: string[];
+  removeRoles: string[];
 }

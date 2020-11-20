@@ -1,3 +1,4 @@
+import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserStateSelector } from 'src/app/ngxs-store/user/user.selector';
 import { NOTIFICATION_SERV_TOKEN, NotificationService } from './../../services/notification.service';
@@ -49,6 +50,8 @@ export class LoginComponent implements OnInit {
     model.username = this.loginForm.get('username').value;
     model.password = this.loginForm.get('password').value;
     this.store.dispatch(new UserActions.LoginUser(model)).subscribe(res => {
+      this.dialog.closeAll();
+    }, err =>  {
       this.dialog.closeAll();
     });
   }

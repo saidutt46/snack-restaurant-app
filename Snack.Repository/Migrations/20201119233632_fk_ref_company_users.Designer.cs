@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Snack.Repository.DatabaseContext;
 
 namespace Snack.Repository.Migrations
 {
     [DbContext(typeof(SnackContext))]
-    partial class SnackContextModelSnapshot : ModelSnapshot
+    [Migration("20201119233632_fk_ref_company_users")]
+    partial class fk_ref_company_users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,7 +160,7 @@ namespace Snack.Repository.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("CompanyRoleId")
+                    b.Property<Guid>("ComapnyRoleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -224,7 +226,7 @@ namespace Snack.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyRoleId");
+                    b.HasIndex("ComapnyRoleId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -378,7 +380,7 @@ namespace Snack.Repository.Migrations
                 {
                     b.HasOne("Snack.Data.DataModels.CompanyRole", "CurrentRole")
                         .WithMany("Users")
-                        .HasForeignKey("CompanyRoleId")
+                        .HasForeignKey("ComapnyRoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

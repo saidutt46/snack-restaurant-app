@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
   MatAutocompleteModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule,
-  MatDialogModule, MatExpansionModule, MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule,
+  MatDialogModule, MatDividerModule, MatExpansionModule, MatFormFieldModule, MatGridListModule, MatIconModule, MatInputModule,
   MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatSelectModule,
   MatSidenavModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule,
   MatToolbarModule, MatTooltipModule
@@ -36,7 +36,8 @@ import {
       MatExpansionModule,
       MatSortModule,
       MatChipsModule,
-      MatSlideToggleModule
+      MatSlideToggleModule,
+      MatDividerModule
   ],
   exports: [
       MatButtonModule,
@@ -66,7 +67,8 @@ import {
       MatExpansionModule,
       MatSortModule,
       MatChipsModule,
-      MatSlideToggleModule
+      MatSlideToggleModule,
+      MatDividerModule
   ]
 })
 export class UiuxModule { }

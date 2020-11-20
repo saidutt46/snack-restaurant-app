@@ -5,6 +5,8 @@ export class UserStateModel {
   hasManagerialAccess: boolean;
   isAuthenticated: boolean;
   formLoading: boolean;
+  allUsers: UserProfileModel[];
+  usersPageLoading: boolean;
 }
 
 export class AccessUpdateModel {

@@ -1,9 +1,12 @@
+import { UserRegisterModel } from './../models/requests/user-register.model';
+import { UserProfileUpdateRequestModel } from './../models/requests/user-profile-update';
 import { UserProfileModel } from './../models/user-profile.model';
 import { LoginRequestModel, LoginResponseModel } from './../models/login.model';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthBaseResponse } from '../models/base-response';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +31,15 @@ export class AuthenticationService {
     return this.http.post<LoginResponseModel>(`${this.apiUrl}/login`, model);
   }
 
+  public registerUser(model: UserRegisterModel): Observable<AuthBaseResponse> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post<AuthBaseResponse>(`${this.apiUrl}/register`, model, {headers: headers});
+  }
+
   public logout(id: string): Observable<string> {
     const headers = new HttpHeaders();
     this.createAuthorizationHeader(headers);
@@ -43,15 +55,6 @@ export class AuthenticationService {
     return token ? true : false;
   }
 
-  public hasManagerialAccess(): boolean {
-    const roles = this.getUserProfile().roles;
-    if (roles.length > 0) {
-      const hasAccess = roles.some(e => e === 'SuperUser' || 'Manager' || 'Admin');
-      return hasAccess;
-    }
-    return false;
-  }
-
   public getUserProfileById(id: string) {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -62,15 +65,35 @@ export class AuthenticationService {
     { headers: headers});
   }
 
-  public updateUserProfile(model: UserProfileModel) {
-    this.currentUser = model;
+  public getAllUsers() {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(`${this.apiUrl}/listall`,
+    { headers: headers});
   }
 
-  public clearProfile() {
-    this.currentUser = undefined;
+  public updateUserProfile(id: string, model: UserProfileUpdateRequestModel): Observable<UserProfileModel> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.put<UserProfileModel>(`${this.apiUrl}/${id}`, model,
+    { headers: headers});
   }
 
-  public getUserProfile(): UserProfileModel {
-    return this.currentUser;
+  public deleteUser(id: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.delete(`${this.apiUrl}/${id}`,
+    { headers: headers});
   }
+
+
 }
