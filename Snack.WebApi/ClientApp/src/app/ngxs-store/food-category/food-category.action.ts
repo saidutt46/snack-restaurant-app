@@ -1,4 +1,4 @@
-import { FoodCategoryCreateRequest, FoodCategoryModel } from './../../models/food-category.model';
+import { FoodCategoryCreateRequest } from './../../models/food-category.model';
 export namespace FoodCategoryActions {
 
   export class ListAllCategories {

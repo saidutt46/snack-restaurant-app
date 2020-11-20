@@ -1,3 +1,4 @@
+import { FoodItemState } from './ngxs-store/food-items/food-item.state';
 import { UserAddComponent } from './components/user-management/user-add/user-add.component';
 import { CompanyRoleState } from './ngxs-store/company-roles/company-roles.state';
 import { UserEditComponent } from './components/user-management/user-edit/user-edit.component';
@@ -40,6 +41,9 @@ import { AuthAccessGuard } from './helpers/auth-guard';
 import { ManagerialAccessGuard } from './helpers/managerial-acess-guard';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { ConsoleLoggingService, LOGGING_SERV_TOKEN } from './services/logging.service';
+import { ItemsAddComponent } from './components/items-management/items-add/items-add.component';
+import { ItemsEditComponent } from './components/items-management/items-edit/items-edit.component';
+import { ItemsTableComponent } from './components/items-management/items-table/items-table.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +70,10 @@ import { ConsoleLoggingService, LOGGING_SERV_TOKEN } from './services/logging.se
     UsersTableComponent,
     UserRegistrationComponent,
     UserEditComponent,
-    UserAddComponent
+    UserAddComponent,
+    ItemsTableComponent,
+    ItemsEditComponent,
+    ItemsAddComponent
 
   ],
   imports: [
@@ -79,7 +86,7 @@ import { ConsoleLoggingService, LOGGING_SERV_TOKEN } from './services/logging.se
     FlexLayoutModule,
     UiuxModule,
     ReactiveFormsModule,
-    NgxsModule.forRoot([UserState, ManagerState, FoodCategoryState, CompanyRoleState]),
+    NgxsModule.forRoot([UserState, ManagerState, FoodCategoryState, CompanyRoleState, FoodItemState]),
     NgxsFormPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot({key: 'user'})
@@ -89,7 +96,8 @@ import { ConsoleLoggingService, LOGGING_SERV_TOKEN } from './services/logging.se
     RegisterComponent,
     UserProfileComponent,
     CategoriesAddComponent,
-    UserAddComponent
+    UserAddComponent,
+    ItemsAddComponent
   ],
   providers: [
     { provide: NOTIFICATION_SERV_TOKEN, useClass: NotificationService },

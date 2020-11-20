@@ -1,0 +1,38 @@
+<!-- <app-loading-bar *ngIf="loading$ | async"></app-loading-bar> -->
+<div class="loading-section" *ngIf="loading || (loading$ | async)">
+  <app-loading-spinner [diameter]="40"></app-loading-spinner>
+</div>
+<h2 mat-dialog-title>ADD CATEGORY</h2>
+
+<mat-dialog-content>
+
+  <form [formGroup]="addForm" fxFlex fxLayout="column" fxLayoutGap="16px">
+    <mat-form-field>
+      <input required id="name" matInput formControlName="name" placeholder="Category Name">
+    </mat-form-field>
+    <mat-form-field>
+      <input id="description" matInput formControlName="description" placeholder="Description">
+    </mat-form-field>
+    <mat-form-field>
+      <input type="number" required id="unitPrice" matInput formControlName="unitPrice" placeholder="Price">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="foodCategoryId">
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{category.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="number" id="calories" matInput formControlName="calories" placeholder="Calories">
+    </mat-form-field>
+    <mat-checkbox mat id="availability" formControlName="availability">Available</mat-checkbox>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+    <button class="mat-raised-button"(click)="dialog.closeAll()">Close</button>
+    <button [disabled]="addForm.invalid" class="mat-raised-button mat-primary"(click)="saveCategory()">Save</button>
+</mat-dialog-actions>
