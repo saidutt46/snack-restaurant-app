@@ -33,6 +33,7 @@
     <Folder Include="DatabaseContext\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Repositories\" />
+    <Folder Include="ApplicationSpecifications\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Snack.Data\Snack.Data.csproj" />

@@ -1,0 +1,20 @@
+.main-window {
+  // padding: 16px;
+  width: 100%;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+
+  .categories-content-section {
+    padding: 8px;
+    height: calc(100vh - 128px);
+    overflow: auto;
+  }
+}
+
+:host ::ng-deep {
+  .readonly-form-field {
+    .mat-form-field-underline {
+      display: none;
+    }
+  }
+}

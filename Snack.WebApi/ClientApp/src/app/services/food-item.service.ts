@@ -33,6 +33,16 @@ export class FoodItemService {
     { headers: headers});
   }
 
+  getItemsByCategory(id: string): Observable<BaseDtoListResponse<FoodItemModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<BaseDtoListResponse<FoodItemModel>>(`${this.apiUrl}/category/${id}`,
+    { headers: headers});
+  }
+
   create(model: FoodItemRequest): Observable<BaseDtoResponse<FoodItemModel>> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({

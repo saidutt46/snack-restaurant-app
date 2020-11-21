@@ -27,4 +27,9 @@ export namespace FoodCategoryActions {
     static readonly type = '[CATEGORY] DELETE';
     constructor(public payload: string) { }
   }
+
+  export class GetFoodItemsByCategoryId {
+    static readonly type = '[CATEGORY] ITEMS';
+    constructor(public payload: string) { }
+  }
 }

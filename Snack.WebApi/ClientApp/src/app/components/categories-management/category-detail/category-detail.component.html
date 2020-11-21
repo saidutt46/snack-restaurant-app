@@ -1,0 +1,31 @@
+<div class="main-window" fxFlex fxLayout="column">
+  <app-context-header [title]="'Food Categories Management'">
+    <button color="primary" mat-raised-button (click)="addCategory()">ADD CATEGORY</button>
+  </app-context-header>
+  <div class="categories-content-section" fxFlex fxLayout="column" fxLayoutGap="16px">
+    <div *ngIf="loading$ | async; then loading else loaded"></div>
+    <ng-template #loading>
+      <app-loading-spinner [diameter]="100"></app-loading-spinner>
+    </ng-template>
+    <ng-template #loaded>
+      <mat-card>
+        <div fxFlex fxLayout="row" fxLayoutGap="16px">
+          <div class="detail-tab" fxFlex fxLayout="column">
+            <mat-form-field *ngIf="category.name" class="readonly-form-field" floatLabel="always">
+              <input matInput readonly placeholder="Name" [value]="category.name">
+            </mat-form-field>
+            <mat-form-field *ngIf="category.description" class="readonly-form-field" floatLabel="always">
+              <input matInput readonly placeholder="Description" [value]="category.description">
+            </mat-form-field>
+            <mat-form-field class="readonly-form-field" floatLabel="always">
+              <input matInput readonly placeholder="Total Items" [value]="(foodItems$ | async).length">
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card>
+      <div fxFlex class="mat-elevation-z8">
+        <app-items-table [source]="foodItems$ | async" fxFlex></app-items-table>
+      </div>
+    </ng-template>
+  </div>
+</div>

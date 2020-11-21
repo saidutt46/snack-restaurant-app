@@ -23,4 +23,9 @@ export class FoodCategorySelector {
   static getFormLoading(state: FoodCategoryStateModel) {
     return state.formLoading;
   }
+
+  @Selector([FoodCategoryState])
+  static getFoodItems(state: FoodCategoryStateModel) {
+    return state.itemsByCategory;
+  }
 }

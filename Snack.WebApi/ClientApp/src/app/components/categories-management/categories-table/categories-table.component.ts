@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CategoriesAddComponent } from './../categories-add/categories-add.component';
 import { FoodCategoryActions } from 'src/app/ngxs-store/food-category/food-category.action';
 import { FoodCategoryModel } from './../../../models/food-category.model';
@@ -33,7 +34,8 @@ export class CategoriesTableComponent implements OnInit, AfterViewInit {
     protected store: Store,
     @Inject(LOGGING_SERV_TOKEN) protected logger: ConsoleLoggingService,
     @Inject(NOTIFICATION_SERV_TOKEN) protected notifier: INotificationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -93,6 +95,10 @@ export class CategoriesTableComponent implements OnInit, AfterViewInit {
     this.dialog.open(CategoriesAddComponent, {
       width: '30%'
     });
+  }
+
+  viewDetails(id: string) {
+    this.router.navigate(['category', id]);
   }
 
 }

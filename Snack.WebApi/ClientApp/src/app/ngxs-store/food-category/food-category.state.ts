@@ -1,3 +1,5 @@
+import { FoodItemModel } from './../../models/food-item.model';
+import { FoodItemService } from './../../services/food-item.service';
 import { NOTIFICATION_SERV_TOKEN, NotificationService } from './../../services/notification.service';
 import { FoodCategoryModel } from './../../models/food-category.model';
 import { BaseDtoListResponse, BaseDtoResponse } from './../../models/base-response';
@@ -15,7 +17,8 @@ import { throwError } from 'rxjs';
     allCategoris: [],
     selectedCategory: undefined,
     loading: false,
-    formLoading: false
+    formLoading: false,
+    itemsByCategory: []
   }
 })
 
@@ -24,7 +27,8 @@ export class FoodCategoryState {
   constructor(
     private categoryService: FoodCategoryService,
     @Inject(NOTIFICATION_SERV_TOKEN) private notifier: NotificationService,
-    private store: Store
+    private store: Store,
+    private foodItemService: FoodItemService
   ) { }
 
   @Action([FoodCategoryActions.ListAllCategories])
@@ -130,6 +134,26 @@ export class FoodCategoryState {
           });
           this.notifier.successNotification(`Sucessfully deleted food category: ${res.payload.name}`);
           this.store.dispatch(new FoodCategoryActions.ListAllCategories());
+        }
+      })
+    );
+  }
+
+  @Action([FoodCategoryActions.GetFoodItemsByCategoryId])
+  getItemsByCategory({patchState}: StateContext<FoodCategoryStateModel>, { payload }) {
+    patchState({
+      loading: true
+    });
+    return this.foodItemService.getItemsByCategory(payload).pipe(
+      catchError((x) => {
+        return throwError(x);
+      }),
+      tap((res) => {
+        if (res) {
+          patchState({
+            itemsByCategory: res.payload,
+            loading: false
+          });
         }
       })
     );
