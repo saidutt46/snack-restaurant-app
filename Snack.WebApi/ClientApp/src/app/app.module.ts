@@ -1,3 +1,4 @@
+import { CategoryDetailComponent } from './components/categories-management/category-detail/category-detail.component';
 import { FoodItemState } from './ngxs-store/food-items/food-item.state';
 import { UserAddComponent } from './components/user-management/user-add/user-add.component';
 import { CompanyRoleState } from './ngxs-store/company-roles/company-roles.state';
@@ -73,7 +74,8 @@ import { ItemsTableComponent } from './components/items-management/items-table/i
     UserAddComponent,
     ItemsTableComponent,
     ItemsEditComponent,
-    ItemsAddComponent
+    ItemsAddComponent,
+    CategoryDetailComponent
 
   ],
   imports: [

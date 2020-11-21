@@ -2,13 +2,13 @@
 <div class="loading-section" *ngIf="loading || (loading$ | async)">
   <app-loading-spinner [diameter]="40"></app-loading-spinner>
 </div>
-<h2 mat-dialog-title>ADD CATEGORY</h2>
+<h2 mat-dialog-title>ADD ITEM</h2>
 
 <mat-dialog-content>
 
   <form [formGroup]="addForm" fxFlex fxLayout="column" fxLayoutGap="16px">
     <mat-form-field>
-      <input required id="name" matInput formControlName="name" placeholder="Category Name">
+      <input required id="name" matInput formControlName="name" placeholder="Item Name">
     </mat-form-field>
     <mat-form-field>
       <input id="description" matInput formControlName="description" placeholder="Description">
