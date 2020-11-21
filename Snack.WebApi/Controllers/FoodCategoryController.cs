@@ -49,6 +49,24 @@ namespace Snack.WebApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("{id}/items")]
+        public async Task<IActionResult> GetItemsByCategory(Guid id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.GetErrorMessages());
+
+            try
+            {
+                var response = await _foodCategorySerive.GetItemsByCategory(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
 

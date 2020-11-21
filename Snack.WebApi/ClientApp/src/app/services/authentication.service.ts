@@ -12,7 +12,7 @@ import { AuthBaseResponse } from '../models/base-response';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private apiUrl = `${environment.API_BASE_URL}/authentication`;
+  private apiUrl = `${environment.API_BASE_URL}/user`;
   currentUser: UserProfileModel;
 
   constructor(
@@ -46,22 +46,13 @@ export class AuthenticationService {
     return this.http.post<string>(`${this.apiUrl}/logout/${id}`, {});
   }
 
-  public getUserClaims(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/userclaims`);
-  }
-
-  public isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
-    return token ? true : false;
-  }
-
   public getUserProfileById(id: string) {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-    return this.http.get(`${this.apiUrl}/userprofile/${id}`,
+    return this.http.get(`${this.apiUrl}/${id}`,
     { headers: headers});
   }
 

@@ -13,7 +13,5 @@ namespace Snack.Service.Interfaces
         Task<BaseDtoResponse<FoodItemDto>> Add(FoodItemCreateRequest request);
         Task<BaseDtoResponse<FoodItemDto>> Update(Guid id, FoodItemCreateRequest request);
         Task<BaseDtoResponse<FoodItemDto>> Delete(Guid id);
-        Task<BaseDtoListResponse<FoodItemDto>> GetItemsByCategory(Guid CategoryId);
-
     }
 }
