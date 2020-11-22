@@ -1,3 +1,5 @@
+import { PSCustomColumnDef } from './../../shared-components/table-model/column-def';
+import { CustomTableComponent } from './../../shared-components/custom-table/custom-table.component';
 import { Router } from '@angular/router';
 import { CategoriesAddComponent } from './../categories-add/categories-add.component';
 import { FoodCategoryActions } from 'src/app/ngxs-store/food-category/food-category.action';
@@ -10,20 +12,25 @@ import { Observable } from 'rxjs';
 import { FoodCategorySelector } from 'src/app/ngxs-store/food-category/food-category.selector';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort, MatTableDataSource, MatDialog } from '@angular/material';
+import { BaseTableComponent } from '../../shared-components/base-table.component';
+import { IPSColumn, PSColumnDef } from '../../shared-components/table-model/column-def';
+import { not } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-categories-table',
   templateUrl: './categories-table.component.html',
   styleUrls: ['./categories-table.component.scss']
 })
-export class CategoriesTableComponent implements OnInit, AfterViewInit {
+export class CategoriesTableComponent extends BaseTableComponent<FoodCategoryModel> {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  showLoading: boolean;
   hasRecords: boolean;
-  records: FoodCategoryModel[];
-  categories: FoodCategoryModel[];
-  displayedColumns: string[] = ['select', 'name', 'description', 'actions'];
-  dataSource = new MatTableDataSource<FoodCategoryModel>();
-  selection = new SelectionModel<FoodCategoryModel>(true, []);
+  @ViewChild('dt', { static: true }) dataTableComponent: CustomTableComponent<FoodCategoryModel>;
+  readonly psColumnDefs: IPSColumn[];
+
+  // records: FoodCategoryModel[];
+  // categories: FoodCategoryModel[];
+  // selection = new SelectionModel<FoodCategoryModel>(true, []);
   @Select(FoodCategorySelector.getPageLoading) loading$: Observable<boolean>;
   @Select(FoodCategorySelector.getAllCategories) categoriesList$: Observable<FoodCategoryModel[]>;
 
@@ -36,60 +43,26 @@ export class CategoriesTableComponent implements OnInit, AfterViewInit {
     @Inject(NOTIFICATION_SERV_TOKEN) protected notifier: INotificationService,
     private dialog: MatDialog,
     private router: Router
-  ) { }
+  ) {
+    super(store, logger, notifier);
+    this.psColumnDefs = [
+      PSColumnDef.create('name', 'Category Name'),
+      PSColumnDef.create('description', 'Description'),
+      PSCustomColumnDef.create('actions', 'Actions')
+    ];
+   }
 
-  ngOnInit() {
-    this.categoriesList$.subscribe(res => {
-      this.categories = res;
-      this.hasRecords = res.length > 0 ? true : false;
-      this.dataSource.data = this.categories;
-      this.selection.clear();
-    });
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: FoodCategoryModel): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.name}`;
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  showEdit(row: FoodCategoryModel) {
-    // console.warn(row);
+  recordSelected(row: FoodCategoryModel) {
     this.categorySelected.emit(row);
   }
 
-  deleteSelected() {
-    this.refreshAndCloseEditPanel.emit();
-    const selected = this.selection.selected;
-    selected.forEach(category => {
-      this.store.dispatch(new FoodCategoryActions.DeleteCategory(category.id));
-    });
-  }
+  // deleteSelected() {
+  //   this.refreshAndCloseEditPanel.emit();
+  //   const selected = this.selection.selected;
+  //   selected.forEach(category => {
+  //     this.store.dispatch(new FoodCategoryActions.DeleteCategory(category.id));
+  //   });
+  // }
 
   addCategory() {
     this.dialog.open(CategoriesAddComponent, {

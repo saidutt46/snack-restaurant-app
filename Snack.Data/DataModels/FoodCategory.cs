@@ -9,6 +9,6 @@ namespace Snack.Data.DataModels
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public virtual ICollection<FoodItem> FoodItems { get; set; }
+        public ICollection<FoodItem> FoodItems { get; set; }
     }
 }

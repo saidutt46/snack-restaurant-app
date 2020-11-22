@@ -254,19 +254,19 @@ export class CustomTableComponent<T> extends BaseComponent implements OnInit, Af
 
   // TODO: When selection is being worked on.
   arrowUpEvent() {
-    // if (this.highlightRowIndex === undefined || this.highlightRowIndex - 1 < 0) {
-    //     this.highlightRowIndex = this.dataSource.data.length - 1;
-    // } else {
-    //     this.highlightRowIndex = this.highlightRowIndex - 1;
-    // }
+    if (this.highlightRowIndex === undefined || this.highlightRowIndex - 1 < 0) {
+        this.highlightRowIndex = this.dataSource.data.length - 1;
+    } else {
+        this.highlightRowIndex = this.highlightRowIndex - 1;
+    }
   }
 
   arrowDownEvent() {
-    // if (this.highlightRowIndex === undefined || this.highlightRowIndex === this.dataSource.data.length - 1) {
-    //     this.highlightRowIndex = 0;
-    // } else {
-    //     this.highlightRowIndex = this.highlightRowIndex + 1;
-    // }
+    if (this.highlightRowIndex === undefined || this.highlightRowIndex === this.dataSource.data.length - 1) {
+        this.highlightRowIndex = 0;
+    } else {
+        this.highlightRowIndex = this.highlightRowIndex + 1;
+    }
   }
 
   selectAll(event) {

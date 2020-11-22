@@ -16,6 +16,6 @@ namespace Snack.Data.DataModels
         public DateTime DateJoined { get; set; }
 
         public Guid CompanyRoleId { get; set; } // current position in the company; navigation property
-        public virtual CompanyRole CurrentRole { get; set; }
+        public CompanyRole CurrentRole { get; set; }
     }
 }

@@ -1,5 +1,9 @@
 @import "./assets/themes/custom-theme.scss";
 
+$even: rgb(255, 255, 255);
+$odd: rgb(245, 245, 245);
+$highlight: rgba(235, 235, 235, 0.733);
+
 
 html, body { height: 100%; }
 body {
@@ -54,55 +58,51 @@ body {
 }
 
 
-// table styles
-.selectedRow {
-  background: lightblue !important;
-}
+// // table styles
+// .mat-header-row {
+//   min-height: 50px !important;
+// }
 
-.mat-header-row {
-  min-height: 50px !important;
-}
+// .mat-header-cell {
+//   font-size: 13px !important;
+// }
 
-.mat-header-cell {
-  font-size: 13px !important;
-}
-
-.mat-cell {
-  font-size: 16px !important;
-  height: auto;
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+// .mat-cell {
+//   font-size: 16px !important;
+//   height: auto;
+//   padding-top: 8px !important;
+//   padding-bottom: 8px !important;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
 
 
-  &.mat-column-select div {
-      overflow: visible;
-  }
-}
+//   &.mat-column-select div {
+//       overflow: visible;
+//   }
+// }
 
-.mat-column-select {
-  overflow: initial;
-}
+// .mat-column-select {
+//   overflow: initial;
+// }
 
-.limited-width-cell {
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+// .limited-width-cell {
+//   max-width: 180px;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+// }
 
-.mat-row {
-  border: none;
-  min-height: 40px !important;
-  height: auto;
-  cursor: pointer;
-}
+// .mat-row {
+//   border: none;
+//   min-height: 40px !important;
+//   height: auto;
+//   cursor: pointer;
+// }
 
-.mat-column-select {
-  overflow: initial;
-}
+// .mat-column-select {
+//   overflow: initial;
+// }
 
 
 .edit-section-header {
@@ -116,3 +116,131 @@ body {
     font-size: 18px;
   }
 }
+
+
+// #region Table Styles
+.column-icon {
+  font-size: 16px;
+  color: $primary;
+}
+
+.selectedRow {
+  background: $primary-accent !important;
+  color: white !important;
+
+  .mat-checkbox-frame {
+      border-color: $accent !important;
+  }
+}
+
+// start focus styles
+mat-checkbox.cdk-keyboard-focused {
+  .mat-checkbox-persistent-ripple {
+      transform: none !important;
+  }
+}
+
+mat-datepicker-toggle {
+  button.cdk-keyboard-focused {
+      .mat-button-focus-overlay {
+          width: 35px;
+          height: 35px;
+          margin-left: -10px;
+          margin-top: -5px;
+      }
+  }
+}
+mat-checkbox.cdk-keyboard-focused {
+  .mat-checkbox-persistent-ripple {
+      transform: none !important;
+  }
+}
+
+// mat-form-field.mat-focused {
+//   .mat-form-field-underline {
+//       height: 2px;
+//   }
+
+//   .mat-form-field-prefix {
+//       color: $primary !important;
+//   }
+
+//   .mat-datepicker-toggle {
+//       color: $primary !important;
+//   }
+// }
+
+// mat-button (button-text)
+.mat-button {
+  &:focus:enabled {
+    outline-offset: -.2rem;
+
+    .mat-button-focus-overlay {
+      background-color: transparent !important;
+    }
+  }
+}
+// end focus styles
+
+
+.previouslySelectedRow {
+  background: adjust-hue($primary, 180) !important;
+}
+
+.mat-header-row {
+  min-height: 50px !important;
+}
+
+.mat-header-cell {
+  font-size: 13px !important;
+}
+
+.mat-cell {
+  font-size: 16px !important;
+
+  div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+  }
+
+  &.mat-column-select div {
+      overflow: visible;
+  }
+}
+
+.mat-row {
+  border: none;
+  min-height: 50px !important;
+  height: auto;
+
+  &:nth-child(even) {
+      background: $even;
+
+      &:hover {
+          background: darken($even, 10%);
+      }
+  }
+
+  &:nth-child(odd) {
+      background-color: $odd;
+
+      &:hover {
+          background: darken($odd, 10%);
+      }
+  }
+}
+
+mat-cell,
+td.mat-cell,
+mat-header-cell,
+th.mat-header-cell,
+mat-footer-cell,
+td.mat-footer-cell {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  // need better selector so don't have to rely on !important, but at the 11th hour for sprint review.
+  padding-left: 16px !important;
+  padding-right: 12px !important;
+}
+// #endregion

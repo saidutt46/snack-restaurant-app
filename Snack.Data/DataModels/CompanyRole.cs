@@ -10,6 +10,6 @@ namespace Snack.Data.DataModels
         public string Description { get; set; }
         public decimal Salary { get; set; }
 
-        public virtual ICollection<ApplicationUser> Users { get; set; }
+        public ICollection<ApplicationUser> Users { get; set; }
     }
 }
