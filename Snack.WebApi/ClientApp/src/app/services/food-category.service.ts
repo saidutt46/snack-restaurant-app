@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
+import { FoodItemModel } from '../models/food-item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,16 @@ export class FoodCategoryService {
       'Authorization': `Bearer ${token}`
     });
     return this.http.get<BaseDtoResponse<FoodCategoryModel>>(`${this.apiUrl}/${id}`,
+    { headers: headers});
+  }
+
+  getItemsByCategory(id: string): Observable<BaseDtoListResponse<FoodItemModel>> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<BaseDtoListResponse<FoodItemModel>>(`${this.apiUrl}/${id}/items`,
     { headers: headers});
   }
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Snack.Data.DataModels;
 using Snack.Dto.DtoModels;
 using Snack.Dto.Requests;
 using Snack.Dto.Shared;
+using Snack.Repository.ApplicationSpecifications;
 using Snack.Repository.Interfaces;
 using Snack.Service.Interfaces;
 
@@ -15,11 +17,17 @@ namespace Snack.Service.Services
     {
         private readonly IFoodCategoryRepository _foodCategoryRepository;
         private readonly IMapper _mapper;
+        private readonly IFoodItemRepository _foodItemRepository;
 
-        public FoodCategoryService(IFoodCategoryRepository foodCategoryRepository, IMapper mapper)
+        public FoodCategoryService(
+            IFoodCategoryRepository foodCategoryRepository,
+            IMapper mapper,
+            IFoodItemRepository foodItemRepository
+            )
         {
             _foodCategoryRepository = foodCategoryRepository;
             _mapper = mapper;
+            _foodItemRepository = foodItemRepository;
         }
 
         public async Task<BaseDtoListResponse<FoodCategoryDto>> ListAsync()
@@ -122,6 +130,31 @@ namespace Snack.Service.Services
             catch (Exception ex)
             {
                 return new BaseDtoResponse<FoodCategoryDto>($"An error occurred when deleting the category: {ex.Message}");
+            }
+        }
+
+        public async Task<BaseDtoListResponse<FoodItemDto>> GetItemsByCategory(Guid CategoryId)
+        {
+            try
+            {
+                FoodCategory category = await _foodCategoryRepository.GetById(CategoryId);
+                if (category == null)
+                    return new BaseDtoListResponse<FoodItemDto>("There is no category with requested Id");
+                IList<FoodItem> items = await _foodItemRepository.List(new ItemsByCategorySpecification(CategoryId));
+                if (items != null)
+                {
+                    IList<FoodItemDto> result = _mapper.Map<IList<FoodItem>, IList<FoodItemDto>>(items).ToList();
+                    return new BaseDtoListResponse<FoodItemDto>(result);
+                }
+                else
+                {
+                    return new BaseDtoListResponse<FoodItemDto>(new List<FoodItemDto>());
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new BaseDtoListResponse<FoodItemDto>($"An error occurred when deleting the item: {ex.Message}");
             }
         }
     }

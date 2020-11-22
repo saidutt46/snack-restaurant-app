@@ -10,6 +10,11 @@ export namespace FoodCategoryActions {
     constructor(public payload: string) { }
   }
 
+  export class GetItemsByCategory {
+    static readonly type = '[CATEGORY] GET ITEMS';
+    constructor(public payload: string) { }
+  }
+
   export class CreateCategory {
     static readonly type = '[CATEGORY] CREATE';
     constructor(public payload: FoodCategoryCreateRequest) { }

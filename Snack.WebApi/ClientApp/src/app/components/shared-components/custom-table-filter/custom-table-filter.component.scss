@@ -4,6 +4,13 @@
   }
 }
 
+.searchInput {
+  width: 200px;
+  ::ng-deep .mat-form-field-underline {
+    display: none !important;
+  }
+}
+
 .searchIcon {
   font-size: 18px;
   color: #5f6670;

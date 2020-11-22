@@ -1,31 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Snack.Data.DataModels;
-using Snack.Data.IdentityModels;
 using Snack.Dto.DtoModels;
 using Snack.Dto.Requests;
 using Snack.Dto.Responses;
-using Snack.Repository.DatabaseContext;
 using Snack.WebApi.Extensions;
 
 namespace Snack.WebApi.Controllers
 {
-    [Route("/api/[controller]")]
+    [Route("/api/user")]
     public class AuthenticationController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -160,61 +155,8 @@ namespace Snack.WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("register-superuser")]
-        [Authorize(Policy = "ManagerialPolicy")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState.GetErrorMessages());
-            try
-            {
-                var userExists = await userManager.FindByNameAsync(model.Username);
-                if (userExists != null)
-                    return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse { Success = false,  Status = "Error", Errors = new List<string> { "UserName already exists!" } });
-
-                ApplicationUser user = new ApplicationUser()
-                {
-                    Email = model.Email,
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = model.Username,
-                    LastName = model.LastName,
-                    FirstName = model.FirstName,
-                    Gender = model.Gender,
-                    CompanyRoleId = model.CompanyRoleId,
-                    DateJoined = model.DateJoined,
-                    DateOfBirth = model.DateOfBirth,
-                    PhoneNumber = model.PhoneNumber
-                };
-                var result = await userManager.CreateAsync(user, model.Password);
-                if (!result.Succeeded)
-                {
-                    var messages = new List<string>();
-                    foreach (var error in result.Errors)
-                    {
-                        messages.Add(error.Description);
-                    }
-                    return StatusCode(StatusCodes.Status500InternalServerError, new AuthResponse { Success = false,  Status = "Error", Errors = messages });
-                }
-
-                if (!await roleManager.RoleExistsAsync(UserRoles.SuperUser))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.SuperUser));
-
-                if (await roleManager.RoleExistsAsync(UserRoles.SuperUser))
-                {
-                    await userManager.AddToRoleAsync(user, UserRoles.SuperUser);
-                }
-
-                return Ok(new AuthResponse { Success = true, Status = "Success", Message = "User with Super User role created successfully!" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpGet]
-        [Route("userprofile/{id}")]
+        [Route("{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetUserProfile(string id)
         {

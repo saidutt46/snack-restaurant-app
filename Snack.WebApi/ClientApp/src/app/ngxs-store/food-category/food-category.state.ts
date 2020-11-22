@@ -144,7 +144,7 @@ export class FoodCategoryState {
     patchState({
       loading: true
     });
-    return this.foodItemService.getItemsByCategory(payload).pipe(
+    return this.categoryService.getItemsByCategory(payload).pipe(
       catchError((x) => {
         return throwError(x);
       }),

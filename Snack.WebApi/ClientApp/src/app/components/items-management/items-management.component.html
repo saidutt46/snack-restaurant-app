@@ -6,7 +6,7 @@
     <mat-card fxFlex class="custom-content-card mat-elevation-z10">
       <mat-drawer-container fxFlex class="custom-drawer-container" autosize>
         <div class="custom-drawer-content">
-          <app-items-table [source]="itemList$ | async" fxFlex (refreshAndCloseEditPanel)="drawer.close()" (itemSelected)="updateEditForm($event)"></app-items-table>
+          <app-items-table fxFlex (refreshAndCloseEditPanel)="drawer.close()" (itemSelected)="updateEditForm($event)"></app-items-table>
         </div>
         <mat-drawer [position]="'end'" #drawer class="custom-edit-sidenav" mode="side">
           <div *ngIf="!currentItemSelected">please select</div>

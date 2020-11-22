@@ -9,6 +9,9 @@ $custom-app-warn:    mat-palette($mat-red);
 $primary: map-get($custom-app-primary, 500);
 $accent: map-get($custom-app-accent, 200);
 
+$primary-light: map-get($custom-app-primary, A200);
+$primary-accent: map-get($custom-app-primary, 50);
+
 $custom-app-theme: mat-light-theme($custom-app-primary, $custom-app-accent, $custom-app-warn);
 
 @include angular-material-theme($custom-app-theme);

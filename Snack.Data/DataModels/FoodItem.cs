@@ -13,6 +13,6 @@ namespace Snack.Data.DataModels
 
         public Guid FoodCategoryId { get; set; }
 
-        public virtual FoodCategory FoodCategory { get; set; }
+        public FoodCategory FoodCategory { get; set; }
     }
 }

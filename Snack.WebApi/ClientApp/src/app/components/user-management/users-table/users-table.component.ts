@@ -1,3 +1,4 @@
+import { PSColumnDef, PSCustomColumnDef } from './../../shared-components/table-model/column-def';
 import { UserAddComponent } from './../user-add/user-add.component';
 import { UserActions } from 'src/app/ngxs-store/user/user.action';
 import { CompanyCustomRoleModel } from './../../../models/company-role.model';
@@ -11,20 +12,22 @@ import { Select, Store } from '@ngxs/store';
 import { NOTIFICATION_SERV_TOKEN, INotificationService } from 'src/app/services';
 import { LOGGING_SERV_TOKEN, ConsoleLoggingService } from 'src/app/services/logging.service';
 import { Observable } from 'rxjs';
+import { BaseTableComponent } from '../../shared-components/base-table.component';
+import { IPSColumn } from '../../shared-components/table-model/column-def';
+import { CustomTableComponent } from '../../shared-components/custom-table/custom-table.component';
 
 @Component({
   selector: 'app-users-table',
   templateUrl: './users-table.component.html',
   styleUrls: ['./users-table.component.scss']
 })
-export class UsersTableComponent implements OnInit, AfterViewInit {
+export class UsersTableComponent extends BaseTableComponent<UserProfileModel> {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   hasRecords: boolean;
   users: UserProfileModel[];
   customRoles: CompanyCustomRoleModel[];
-  displayedColumns: string[] = ['select', 'userName', 'firstName', 'lastName', 'email', 'designation', 'roles', 'actions'];
-  dataSource = new MatTableDataSource<UserProfileModel>();
-  selection = new SelectionModel<UserProfileModel>(true, []);
+  @ViewChild('dt', { static: true }) dataTableComponent: CustomTableComponent<UserProfileModel>;
+  readonly psColumnDefs: IPSColumn[];
   @Output() userSelected: EventEmitter<UserProfileModel> = new EventEmitter<UserProfileModel>(undefined);
   @Select(UserStateSelector.getAllUsers) users$: Observable<UserProfileModel[]>;
   @Select(CompanyRoleStateSelector.getAllRoles) roles$: Observable<CompanyCustomRoleModel[]>;
@@ -36,53 +39,24 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
     @Inject(LOGGING_SERV_TOKEN) protected logger: ConsoleLoggingService,
     @Inject(NOTIFICATION_SERV_TOKEN) protected notifier: INotificationService,
     private dialog: MatDialog
-    ) { }
+    ) {
+      super(store, logger, notifier);
+      this.roles$.subscribe(res => {
+        this.customRoles = res;
+      });
+      this.psColumnDefs = [
+        PSColumnDef.create('userName', 'User Name'),
+        PSColumnDef.create('firstName', 'First Name'),
+        PSColumnDef.create('lastName', 'Last Name'),
+        PSColumnDef.create('email', 'Email'),
+        PSCustomColumnDef.create('designation', 'Designation', undefined, undefined,
+        (x: UserProfileModel) => this.getRoleName(x.designation)),
+        PSCustomColumnDef.create('roles', 'System Roles'),
+        PSCustomColumnDef.create('actions', 'Actions')
+      ];
+     }
 
-  ngOnInit() {
-    this.roles$.subscribe(roles => {
-      this.customRoles = roles;
-    });
-    this.users$.subscribe(res => {
-      this.hasRecords = res.length > 0 ? true : false;
-      this.users = res;
-      this.dataSource.data = this.users;
-      this.selection.clear();
-    });
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: UserProfileModel): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.userName}`;
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  showEdit(row: UserProfileModel) {
-    // console.warn(row);
+  recordSelected(row: UserProfileModel) {
     this.userSelected.emit(row);
   }
 
@@ -90,12 +64,12 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
     console.log('users');
   }
 
-  deleteSelected() {
-    const selection = this.selection.selected;
-    selection.forEach(selected => {
-      this.store.dispatch(new UserActions.DeleteUser(selected.id));
-    });
-  }
+  // deleteSelected() {
+  //   const selection = this.selection.selected;
+  //   selection.forEach(selected => {
+  //     this.store.dispatch(new UserActions.DeleteUser(selected.id));
+  //   });
+  // }
 
   getRoleName(id: string): string {
     return this.customRoles.find(e => e.id === id).roleName;

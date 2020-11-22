@@ -1,4 +1,3 @@
-import { CategoryDetailComponent } from './components/categories-management/category-detail/category-detail.component';
 import { FoodItemState } from './ngxs-store/food-items/food-item.state';
 import { UserAddComponent } from './components/user-management/user-add/user-add.component';
 import { CompanyRoleState } from './ngxs-store/company-roles/company-roles.state';
@@ -33,7 +32,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent, LoginComponent, RegisterComponent, LobbyComponent, NavigationComponent } from './components';
+import { HomeComponent, LoginComponent, LobbyComponent, NavigationComponent } from './components';
 import { NOTIFICATION_SERV_TOKEN, NotificationService } from './services';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
@@ -45,13 +44,13 @@ import { ConsoleLoggingService, LOGGING_SERV_TOKEN } from './services/logging.se
 import { ItemsAddComponent } from './components/items-management/items-add/items-add.component';
 import { ItemsEditComponent } from './components/items-management/items-edit/items-edit.component';
 import { ItemsTableComponent } from './components/items-management/items-table/items-table.component';
+import { CategoryDetailComponent } from './components/categories-management/category-detail/category-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent,
     LobbyComponent,
     NavigationComponent,
     UserProfileComponent,
@@ -95,7 +94,6 @@ import { ItemsTableComponent } from './components/items-management/items-table/i
   ],
   entryComponents: [
     LoginComponent,
-    RegisterComponent,
     UserProfileComponent,
     CategoriesAddComponent,
     UserAddComponent,

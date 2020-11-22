@@ -1,56 +1,52 @@
-<div fxFlex fxLayout="column">
+<div fxLayout="column">
   <div class="filter-holder" *ngIf="supportFilter && (hasRecords$ | async) as records">
     <app-custom-table-filter fxFlex [tableDataSource]="dataSource"></app-custom-table-filter>
   </div>
   <div style="width:100%;">
-      <mat-table
-      (keydown.arrowdown)="arrowDownEvent()"
-      (keydown.arrowup)="arrowUpEvent()" id="{{ name }}" [dataSource]="dataSource" [multiTemplateDataRows]="multiTemplateDataRows" [ngClass]="{'containsCheckbox': supportMultiSelect}">
-          <ng-container matColumnDef="select" *ngIf="supportMultiSelect">
-              <mat-header-cell *matHeaderCellDef>
-                  <span *ngIf="!supportSelectAll">Selected</span>
-                  <mat-checkbox id="checkbox-{{ name }}" #selectAllCheckbox id="selectAllCheckbox" *ngIf="supportSelectAll" color="primary"
-                      style="margin: 0 10px" (click)="$event.stopPropagation()" (change)="selectAll($event)">
-                  </mat-checkbox>
-              </mat-header-cell>
-              <mat-cell *matCellDef="let row; let i=index">
-                  <mat-checkbox color="primary" style="margin: 0 10px" (click)="$event.stopPropagation()"
-                      (change)="$event ? selection?.toggle(row) : null" [checked]="selection?.isSelected(row)" id="row-checkbox-{{ i }}">
-                  </mat-checkbox>
-              </mat-cell>
-              <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-          </ng-container>
+    <mat-table fxFlex [dataSource]="dataSource" class="custom-table"
+    (keydown.arrowdown)="arrowDownEvent()"
+    (keydown.arrowup)="arrowUpEvent()" id="{{ name }}"
+    matSort>
 
-          <ng-container *ngFor="let col of this.columnDefs">
-              <ng-container [matColumnDef]="col.name">
-                  <mat-header-cell tabIndex="-1" *matHeaderCellDef mat-sort-header [fxLayoutAlign]="col.fxAlign">
-                      {{col.label || col.name}}
-                  </mat-header-cell>
-                  <div>
-                      <mat-cell class="cell-class" *matCellDef="let data" [fxLayoutAlign]="col.fxAlign">
-                          <div>{{col.getData(data)}}</div>
-                      </mat-cell>
-                  </div>
-                  <ng-container *ngIf="col.footer">
-                      <mat-footer-cell *matFooterCellDef>
-                          {{col.footer}}
-                      </mat-footer-cell>
-                  </ng-container>
-              </ng-container>
-          </ng-container>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select" *ngIf="supportMultiSelect">
+        <mat-header-cell *matHeaderCellDef>
+          <span *ngIf="!supportSelectAll">Selected</span>
+          <mat-checkbox id="checkbox-{{ name }}" #selectAllCheckbox id="selectAllCheckbox" *ngIf="supportSelectAll"
+            color="primary" style="margin: 0 10px" (click)="$event.stopPropagation()" (change)="selectAll($event)">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row; let i=index">
+          <mat-checkbox color="primary" style="margin: 0 10px" (click)="$event.stopPropagation()"
+            (change)="$event ? selection?.toggle(row) : null" [checked]="selection?.isSelected(row)"
+            id="row-checkbox-{{ i }}">
+          </mat-checkbox>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+      </ng-container>
 
-          <ng-container *ngIf="useDefaultMatRow">
-              <mat-header-row *matHeaderRowDef="displayedColumnNames; sticky: true" ></mat-header-row>
-              <mat-row *matRowDef="let row; let i=index; columns: displayedColumnNames" (click)="selection?.toggle(row); rowClicked.emit(row);"
-                  [ngClass]="checkForRowClass(row, i)" id="{{ 'row-' + i }}"></mat-row>
-          </ng-container>
-      </mat-table>
-
-      <div *ngIf="!showLoading && dataSourceUpdated && !(hasRecords$ | async) as records" id="noRecordsMessage" class="no-records-message dark600" fxLayoutAlign="center center">
-          <div class="box dark800 border-around" fxLayout="column" fxLayoutAlign="center center">
-              <span class="msg">No Records Found</span>
-          </div>
+      <ng-container *ngFor="let col of columnDefs">
+        <ng-container [matColumnDef]="col.name">
+          <mat-header-cell tabIndex="-1" *matHeaderCellDef mat-sort-header [fxLayoutAlign]="col.fxAlign">
+            {{col.label || col.name}}
+          </mat-header-cell>
+          <mat-cell class="cell-class" *matCellDef="let data" [fxLayoutAlign]="col.fxAlign">
+            <div>
+              {{col.getData(data)}}
+            </div>
+          </mat-cell>
+        </ng-container>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnNames; sticky: true" ></mat-header-row>
+      <mat-row *matRowDef="let row; let i=index; columns: displayedColumnNames" (click)="selection?.toggle(row); rowClicked.emit(row);"
+          [ngClass]="checkForRowClass(row, i)" id="{{ 'row-' + i }}"></mat-row>
+    </mat-table>
+    <div *ngIf="!showLoading && dataSourceUpdated && !(hasRecords$ | async) as records" id="noRecordsMessage"
+      class="no-records-message dark600" fxLayoutAlign="center center">
+      <div class="box dark800 border-around" fxLayout="column" fxLayoutAlign="center center">
+        <span class="msg">No Records Found</span>
       </div>
+    </div>
 
   </div>
 </div>

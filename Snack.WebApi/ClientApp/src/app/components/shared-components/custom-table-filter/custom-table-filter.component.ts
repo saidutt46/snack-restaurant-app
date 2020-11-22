@@ -16,15 +16,15 @@ export class CustomTableFilterComponent implements OnInit {
 
   constructor() {}
 
-  @HostListener('window:keydown', ['$event'])
-  keyupEvent(event: KeyboardEvent) {
-    setTimeout(() => {
-      const searchField = document.getElementById('filter');
-      if (searchField) {
-          searchField.focus();
-      }
-  }, 500);
-  }
+  // @HostListener('window:keydown', ['$event'])
+  // keyupEvent(event: KeyboardEvent) {
+  //   setTimeout(() => {
+  //     const searchField = document.getElementById('filter');
+  //     if (searchField) {
+  //         searchField.focus();
+  //     }
+  // }, 500);
+  // }
 
   ngOnInit() {
       this.filterVal = this.tableDataSource ? this.tableDataSource.filter : '';

@@ -51,25 +51,6 @@ namespace Snack.WebApi.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("category/{id}")]
-        public async Task<IActionResult> GetItemsByCategory(Guid id)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState.GetErrorMessages());
-
-            try
-            {
-                var response = await _foodItemService.GetItemsByCategory(id);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
-
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] FoodItemCreateRequest request)
