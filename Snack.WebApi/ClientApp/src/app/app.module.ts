@@ -1,3 +1,8 @@
+import { TakeoutSelectionState } from './ngxs-store/takeout-selection/takeout-selection.state';
+import { TakeoutSummaryComponent } from './components/takeout/takeout-summary/takeout-summary.component';
+import { TakeoutSelectionComponent } from './components/takeout/takeout-selection/takeout-selection.component';
+import { TakeoutComponent } from './components/takeout/takeout.component';
+import { CustomTableToolsComponent } from './components/shared-components/custom-table-tools/custom-table-tools.component';
 import { FoodItemState } from './ngxs-store/food-items/food-item.state';
 import { UserAddComponent } from './components/user-management/user-add/user-add.component';
 import { CompanyRoleState } from './ngxs-store/company-roles/company-roles.state';
@@ -74,7 +79,11 @@ import { CategoryDetailComponent } from './components/categories-management/cate
     ItemsTableComponent,
     ItemsEditComponent,
     ItemsAddComponent,
-    CategoryDetailComponent
+    CategoryDetailComponent,
+    CustomTableToolsComponent,
+    TakeoutComponent,
+    TakeoutSelectionComponent,
+    TakeoutSummaryComponent
 
   ],
   imports: [
@@ -87,7 +96,14 @@ import { CategoryDetailComponent } from './components/categories-management/cate
     FlexLayoutModule,
     UiuxModule,
     ReactiveFormsModule,
-    NgxsModule.forRoot([UserState, ManagerState, FoodCategoryState, CompanyRoleState, FoodItemState]),
+    NgxsModule.forRoot([
+      UserState,
+      ManagerState,
+      FoodCategoryState,
+      CompanyRoleState,
+      FoodItemState,
+      TakeoutSelectionState
+    ]),
     NgxsFormPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot({key: 'user'})

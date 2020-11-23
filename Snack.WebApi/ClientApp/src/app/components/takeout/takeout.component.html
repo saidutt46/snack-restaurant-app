@@ -1,0 +1,12 @@
+<div class="main-window" fxFlex fxLayout="column">
+  <app-context-header class="mat-elevation-z5" [title]="'Takeout'">
+  </app-context-header>
+  <div class="main-content-section" fxFlex fxLayout="row" fxLayoutGap="8px">
+    <div fxFlex class="lhs mat-elevation-z10">
+      <app-takeout-summary></app-takeout-summary>
+    </div>
+    <div fxFlex class="rhs mat-elevation-z10">
+      <app-takeout-selection fxFlex></app-takeout-selection>
+    </div>
+  </div>
+</div>

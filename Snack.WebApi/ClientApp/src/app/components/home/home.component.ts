@@ -1,3 +1,5 @@
+import { LoginComponent } from './../login/login.component';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
@@ -14,7 +16,8 @@ export class HomeComponent implements OnInit {
 
 
   constructor(
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -22,6 +25,23 @@ export class HomeComponent implements OnInit {
 
   manageInventory() {
     this.router.navigate(['manage']);
+  }
+
+  takeOut() {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    if (token && user) {
+      this.router.navigate(['takeout']);
+    } else {
+      const ref = this.dialog.open(LoginComponent, {
+        width: '30%'
+      });
+      ref.afterClosed().subscribe(res => {
+        if (res && res === 'success') {
+          this.router.navigate(['takeout']);
+        }
+      });
+    }
   }
 
 }

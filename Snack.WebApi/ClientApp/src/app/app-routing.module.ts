@@ -1,3 +1,5 @@
+import { AuthAccessGuard } from './helpers/auth-guard';
+import { TakeoutComponent } from './components/takeout/takeout.component';
 import { CategoryDetailComponent } from './components/categories-management/category-detail/category-detail.component';
 import { ManagerialAccessGuard } from './helpers/managerial-acess-guard';
 import { ItemsManagementComponent } from './components/items-management/items-management.component';
@@ -18,6 +20,7 @@ const routes: Routes = [
   {path: 'food-categories', component: CategoriesManagementComponent, canActivate: [ManagerialAccessGuard]},
   {path: 'food-items', component: ItemsManagementComponent, canActivate: [ManagerialAccessGuard]},
   {path: 'category/:id', component: CategoryDetailComponent, canActivate: [ManagerialAccessGuard]},
+  {path: 'takeout', component: TakeoutComponent, canActivate: [AuthAccessGuard]}
 ];
 
 @NgModule({

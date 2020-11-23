@@ -1,6 +1,6 @@
 <div fxLayout="column">
   <div class="filter-holder" *ngIf="supportFilter && (hasRecords$ | async) as records">
-    <app-custom-table-filter fxFlex [tableDataSource]="dataSource"></app-custom-table-filter>
+    <app-custom-table-filter [placeholder]="filterLabel" fxFlex [tableDataSource]="dataSource"></app-custom-table-filter>
   </div>
   <div style="width:100%;">
     <mat-table fxFlex [dataSource]="dataSource" class="custom-table"

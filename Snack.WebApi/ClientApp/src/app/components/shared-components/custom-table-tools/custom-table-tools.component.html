@@ -1,0 +1,17 @@
+<div class="table-filter table-filter-with-buttons" fxLayout="row">
+  <!-- Buttons to left of filter -->
+  <div class="left-button-margin"><ng-content select="[left]"></ng-content></div>
+
+  <!-- filter component -->
+  <mat-icon [ngClass]="filterComp?.isFocused ? 'blue' : ''">search</mat-icon>
+  <app-custom-table-filter [tableDataSource]="dataSource"></app-custom-table-filter>
+
+  <!-- Buttons to left of Column selector -->
+  <div class="middle-button-margin"><ng-content></ng-content></div>
+
+  <!-- column selector -->
+  <mat-divider [vertical]="true"></mat-divider>
+   <!-- refresh button -->
+  <!-- Buttons to right of Refresh button -->
+  <ng-content select="[right]"></ng-content>
+</div>

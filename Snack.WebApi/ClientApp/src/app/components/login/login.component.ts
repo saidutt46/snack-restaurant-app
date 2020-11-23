@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { UserStateSelector } from 'src/app/ngxs-store/user/user.selector';
 import { NOTIFICATION_SERV_TOKEN, NotificationService } from './../../services/notification.service';
 import { LoginRequestModel } from './../../models/login.model';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     @Inject(NOTIFICATION_SERV_TOKEN) private notifier: NotificationService,
-    private store: Store
+    private store: Store,
+    private dialogRef: MatDialogRef<LoginComponent>
   ) { }
 
   ngOnInit() {
@@ -50,7 +51,7 @@ export class LoginComponent implements OnInit {
     model.username = this.loginForm.get('username').value;
     model.password = this.loginForm.get('password').value;
     this.store.dispatch(new UserActions.LoginUser(model)).subscribe(res => {
-      this.dialog.closeAll();
+      this.dialogRef.close('success');
     }, err =>  {
       this.dialog.closeAll();
     });

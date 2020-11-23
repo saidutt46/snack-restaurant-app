@@ -63,7 +63,7 @@ export class ItemsTableComponent extends BaseTableComponent<FoodItemModel> {
   // }
 
   getAvailabilityValue(val: boolean): string {
-    return val  ? 'check_circle' : 'block';
+    return val === true  ? 'check_circle' : 'block';
   }
 
   addItem() {
