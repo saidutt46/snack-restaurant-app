@@ -1,0 +1,35 @@
+:host ::ng-deep {
+  .mat-divider {
+      height: 56px;
+      align-self: center;
+  }
+
+  .filter-button-span {
+      font-size: 12px;
+      color: #192231;
+      font-weight: bold;
+      padding-left: 16px;
+  }
+
+  .right-button-margin {
+      button {
+          margin-left: 0;
+          margin-right: 0;
+      }
+  }
+
+  .middle-button-margin {
+      button {
+          margin-right: 0;
+          margin-left: 0;
+      }
+  }
+
+  .left-button-margin {
+      display: flex;
+      button, mat-checkbox {
+          margin-right: 16px;
+          margin-left: 0;
+      }
+  }
+}

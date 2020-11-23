@@ -39,6 +39,7 @@ export class CustomTableComponent<T> extends BaseComponent implements OnInit, Af
   @Input() supportFilter = true;
   @Input() customRowClassFn: (data: any) => string;
   @Input() filterPredicate: (data: T, filter: string) => boolean;
+  @Input() filterLabel: string;
 
   @Output() selectionChanged = new EventEmitter<SelectionChange<T>>();
   @Output() displayableColumnsChanged = new EventEmitter<IPSColumn[]>();

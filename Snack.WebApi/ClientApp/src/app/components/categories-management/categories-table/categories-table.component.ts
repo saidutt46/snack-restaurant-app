@@ -27,6 +27,7 @@ export class CategoriesTableComponent extends BaseTableComponent<FoodCategoryMod
   hasRecords: boolean;
   @ViewChild('dt', { static: true }) dataTableComponent: CustomTableComponent<FoodCategoryModel>;
   readonly psColumnDefs: IPSColumn[];
+  filterLabel: 'Filter by Name, Description';
 
   // records: FoodCategoryModel[];
   // categories: FoodCategoryModel[];

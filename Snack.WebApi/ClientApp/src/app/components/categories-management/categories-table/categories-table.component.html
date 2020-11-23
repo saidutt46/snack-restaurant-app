@@ -4,8 +4,8 @@
 </ng-template>
 <ng-template #loaded>
   <div fxFlex fxLayout="column">
-    <ng-container *ngIf="(categoriesList$ | async)?.length > 0">
-      <app-custom-table (rowClicked)="recordSelected($event)" #dt [dataSource$]="categoriesList$" [psColumnDefs]="psColumnDefs"
+    <div *ngIf="(categoriesList$ | async)?.length > 0">
+      <app-custom-table [filterLabel]="filterLabel" (rowClicked)="recordSelected($event)" #dt [dataSource$]="categoriesList$" [psColumnDefs]="psColumnDefs"
         [supportSelect]="true" [supportMultiSelect]="true" [supportFilter]="true" psSort [showLoading]="loading$ | async">
         <ng-container matColumnDef="actions">
           <mat-header-cell tabIndex="-1" fxLayoutAlign="center center" *matHeaderCellDef></mat-header-cell>
@@ -20,6 +20,6 @@
           </mat-cell>
         </ng-container>
       </app-custom-table>
-    </ng-container>
+    </div>
   </div>
 </ng-template>

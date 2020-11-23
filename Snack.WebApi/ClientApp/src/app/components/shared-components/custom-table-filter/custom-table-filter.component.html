@@ -1,6 +1,7 @@
 <div color="primary" class="filter-section" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+  <mat-icon>search</mat-icon>
   <mat-form-field fxFlex class="searchInput" [floatLabel]="'never'">
     <input matInput id="filter" matTooltip="Filter"
-    (keyup)="applyFilter($event.target.value)" [(value)]="filterVal" placeholder="Filter">
+    (keyup)="applyFilter($event.target.value)" [(value)]="filterVal" placeholder="{{placeholder ? placeholder : 'Filter by text from table columns'}}">
   </mat-form-field>
 </div>
