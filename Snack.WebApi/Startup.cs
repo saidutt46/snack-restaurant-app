@@ -50,7 +50,14 @@ namespace Snack.WebApi
             });
             services.AddMvc(option => option.EnableEndpointRouting = false);
             // Add db management
-            services.AddDbContext<SnackContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SnackConnectionString"), b => b.MigrationsAssembly("Snack.Repository")));
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_DEVELOPMENT") == "Production")
+            {
+                services.AddDbContext<SnackContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SnackConnectionStringProd"), b => b.MigrationsAssembly("Snack.Repository")));
+            }
+            else
+            {
+                services.AddDbContext<SnackContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SnackConnectionString"), b => b.MigrationsAssembly("Snack.Repository")));
+            }
 
             services.AddDistributedMemoryCache();
 
@@ -134,6 +141,11 @@ namespace Snack.WebApi
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+            }
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<SnackContext>();
+                context.Database.Migrate();
             }
 
             app.UseHttpsRedirection();
