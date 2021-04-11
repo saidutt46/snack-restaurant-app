@@ -1,3 +1,6 @@
+import { DateFormatPipe } from './pipes/data-format.pipe';
+import { StatusTypePipe } from './pipes/status-type.pipe';
+import { BooleanTypePipe } from './pipes/boolean-type.pipe';
 import { TakeoutSelectionState } from './ngxs-store/takeout-selection/takeout-selection.state';
 import { TakeoutSummaryComponent } from './components/takeout/takeout-summary/takeout-summary.component';
 import { TakeoutSelectionComponent } from './components/takeout/takeout-selection/takeout-selection.component';
@@ -83,7 +86,10 @@ import { CategoryDetailComponent } from './components/categories-management/cate
     CustomTableToolsComponent,
     TakeoutComponent,
     TakeoutSelectionComponent,
-    TakeoutSummaryComponent
+    TakeoutSummaryComponent,
+    BooleanTypePipe,
+    StatusTypePipe,
+    DateFormatPipe
 
   ],
   imports: [
