@@ -22,7 +22,7 @@ export class UserAddComponent implements OnInit {
   addForm: FormGroup;
   rolesForm: FormGroup;
   companyRoles: CompanyCustomRoleModel[];
-  hide: false;
+  hide = false;
 
   constructor(
     private fb: FormBuilder,

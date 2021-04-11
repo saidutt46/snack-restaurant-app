@@ -17,7 +17,7 @@ import { UserActions } from 'src/app/ngxs-store/user/user.action';
 export class LoginComponent implements OnInit {
   @Select(UserStateSelector.formLoading) loading$: Observable<boolean>;
   loginForm: FormGroup;
-  hide: false;
+  hide = false;
 
   constructor(
     private dialog: MatDialog,
