@@ -104,7 +104,6 @@ namespace Snack.WebApi.Controllers
 
         [HttpPost]
         [Route("register")]
-        [Authorize(Policy = "ManagerialPolicy")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
