@@ -143,11 +143,12 @@ namespace Snack.WebApi
                 app.UseSpaStaticFiles();
             }
 
+            app.UseCors("CorsPolicy");
             app.UseRouting();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "VOV-V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Snack");
             });
 
 
@@ -155,7 +156,6 @@ namespace Snack.WebApi
             app.UseAuthorization();
 
             app.UseMvc();
-            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

@@ -42,7 +42,7 @@ export class ItemsTableComponent extends BaseTableComponent<FoodItemModel> {
     super(store, logger, notifier);
     this.psColumnDefs = [
       PSColumnDef.create('name', 'Category Name'),
-      PSColumnDef.create('unitPrice', 'Unit Price ($)'),
+      PSCustomColumnDef.create('unitPrice', 'Unit Price ($)'),
       PSColumnDef.create('calories', 'Calories'),
       PSCustomColumnDef.create('availability', 'Availability', undefined, undefined,
       (x: FoodItemModel) => this.getAvailabilityValue(x.availability)),

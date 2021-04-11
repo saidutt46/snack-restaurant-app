@@ -7,6 +7,14 @@
     <ng-container *ngIf="(itemList$ | async)?.length > 0">
       <app-custom-table (rowClicked)="recordSelected($event)" #dt [dataSource$]="itemList$" [psColumnDefs]="psColumnDefs"
         [supportSelect]="true" [supportMultiSelect]="true" [supportFilter]="true" psSort [showLoading]="loading$ | async">
+        <ng-container matColumnDef="unitPrice">
+          <mat-header-cell fxLayoutAlign="center center" *matHeaderCellDef mat-sort-header> Unit Price </mat-header-cell>
+          <mat-cell fxLayoutAlign="center center" *matCellDef="let row;">
+            <mat-chip-list>
+              <mat-chip>{{row.unitPrice.toFixed(2)}}</mat-chip>
+            </mat-chip-list>
+          </mat-cell>
+        </ng-container>
         <ng-container matColumnDef="availability">
           <mat-header-cell fxLayoutAlign="center center" *matHeaderCellDef mat-sort-header> Availability </mat-header-cell>
           <mat-cell fxLayoutAlign="center center" *matCellDef="let row;">

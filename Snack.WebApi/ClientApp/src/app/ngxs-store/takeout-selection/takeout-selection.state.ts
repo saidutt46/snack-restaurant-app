@@ -10,7 +10,6 @@ import { TakeoutSelectionActions } from './takeout-selection.action';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { BaseDtoListResponse } from 'src/app/models/base-response';
-import { appendFile } from 'fs';
 
 @State<TakeoutSelectionStateModel>({
   name: 'takeoutScreen',
