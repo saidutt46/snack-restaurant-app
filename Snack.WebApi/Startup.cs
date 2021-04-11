@@ -184,6 +184,7 @@ namespace Snack.WebApi
                 // so we modify the request.Path so it can resolve files
                 if (env.IsDevelopment())
                 {
+                    spa.Options.SourcePath = "ClientApp";
                     spa.ApplicationBuilder.Use((context, next) =>
                     {
                         var request = context.Request;
