@@ -149,7 +149,6 @@ namespace Snack.WebApi
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -163,11 +162,11 @@ namespace Snack.WebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Snack");
             });
 
-
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseMvc();
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -176,6 +175,7 @@ namespace Snack.WebApi
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+            app.UseStaticFiles();
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
