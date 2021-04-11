@@ -182,16 +182,16 @@ namespace Snack.WebApi
                 // see https://go.microsoft.com/fwlink/?linkid=864501
                 // Angular CLI server doesn't respect request.PathBase
                 // so we modify the request.Path so it can resolve files
-                spa.ApplicationBuilder.Use((context, next) =>
-                {
-                    var request = context.Request;
-                    request.Path = request.PathBase.Add(request.Path);
-
-                    return next();
-                });
-
                 if (env.IsDevelopment())
                 {
+                    spa.ApplicationBuilder.Use((context, next) =>
+                    {
+                        var request = context.Request;
+                        request.Path = request.PathBase.Add(request.Path);
+
+                        return next();
+                    });
+
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
