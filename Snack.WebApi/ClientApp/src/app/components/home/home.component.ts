@@ -1,8 +1,9 @@
+import { CompanyRolesActions } from 'src/app/ngxs-store/company-roles/company-roles.action';
 import { LoginComponent } from './../login/login.component';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { UserStateSelector } from 'src/app/ngxs-store/user/user.selector';
 
@@ -17,10 +18,14 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private store: Store
   ) { }
 
   ngOnInit() {
+    this.store.dispatch([
+      new CompanyRolesActions.ListAllCompanyRoles()
+    ]);
   }
 
   manageInventory() {

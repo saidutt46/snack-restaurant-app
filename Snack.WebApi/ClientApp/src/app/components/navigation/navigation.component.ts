@@ -1,3 +1,4 @@
+import { UserAddComponent } from './../user-management/user-add/user-add.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserProfileComponent } from './../user-profile/user-profile.component';
 import { Observable } from 'rxjs';
@@ -48,6 +49,14 @@ export class NavigationComponent implements OnInit {
     });
   }
 
+  userRegister() {
+    this.dialog.open(UserAddComponent, {
+      width: '30%',
+      height: 'auto',
+      panelClass: 'custom-dialog'
+    });
+  }
+
   registerUser() {
     console.warn('register selected');
   }
@@ -68,3 +77,7 @@ export class NavigationComponent implements OnInit {
   }
 
 }
+function RegisterComponent(RegisterComponent: any) {
+  throw new Error('Function not implemented.');
+}
+

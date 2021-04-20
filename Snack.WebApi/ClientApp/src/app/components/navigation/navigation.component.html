@@ -4,6 +4,7 @@
   </div>
   <div fxLayout="row">
     <button *ngIf="!isAuthenticated" mat-button (click)="userLogin()">LOGIN</button>
+    <button *ngIf="!isAuthenticated" mat-button (click)="userRegister()">REGISTER</button>
     <button *ngIf="isAuthenticated" class="menu-button-option" mat-icon-button (click)="openUserMenu()"><mat-icon>account_circle</mat-icon></button>
     <button class="menu-button-option" mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon></button>
   </div>

@@ -32,10 +32,9 @@ export class AuthenticationService {
   }
 
   public registerUser(model: UserRegisterModel): Observable<AuthBaseResponse> {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Content-Type': 'application/json'
     });
     return this.http.post<AuthBaseResponse>(`${this.apiUrl}/register`, model, {headers: headers});
   }

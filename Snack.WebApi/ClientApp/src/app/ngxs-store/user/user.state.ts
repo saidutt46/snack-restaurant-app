@@ -77,7 +77,6 @@ export class UserState {
           patchState({
             formLoading: false
           });
-          this.store.dispatch(new UserActions.GetAllUsers());
           this.notifier.successNotification(`${res.message}`);
       }, err => {
         patchState({

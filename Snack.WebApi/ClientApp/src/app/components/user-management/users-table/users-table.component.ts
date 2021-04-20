@@ -76,9 +76,15 @@ export class UsersTableComponent extends BaseTableComponent<UserProfileModel> {
   }
 
   addUser() {
-    this.dialog.open(UserAddComponent, {
+    const dialogRef = this.dialog.open(UserAddComponent, {
       width: '30%'
     });
+    dialogRef.afterClosed().subscribe(res => {
+      this.store.dispatch([
+        new UserActions.GetAllUsers()
+      ]);
+    });
+
   }
 
 }
